@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+body {
+  background-color: #f5f5f5;
+}
+.ant-radio-button-wrapper-checked {
+  background-color: #141414 !important;
+  color: white !important;
+}
+.custom-checkbox .ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #000000 !important;
+  border-color: #000000 !important;
+}
+
+/* Đảm bảo checkbox có đủ kích thước đẹp */
+.custom-checkbox .ant-checkbox-inner {
+  width: 16px;
+  height: 16px;
+}
