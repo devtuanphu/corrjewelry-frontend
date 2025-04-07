@@ -15,7 +15,7 @@ const paths = [
   { label: "Tài khoản", link: "#" },
 ];
 import { Input, Button, Space } from "antd";
-const page = () => {
+const Page = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [remember, setRemember] = useState(false);
 
@@ -132,4 +132,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

@@ -1,3 +1,4 @@
+"use client";
 import BreadcrumbBlack from "@/components/share/BreadcrumbBlack";
 import React from "react";
 import { quicksand, robotosand } from "@/font";

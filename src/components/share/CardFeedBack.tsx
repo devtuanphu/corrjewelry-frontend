@@ -35,9 +35,9 @@ const CardFeedBack = () => {
           </div>
         </div>
         <p className="text-[14px] font-medium text-[#2A2A2A]">
-          "I absolutely love this! The design is unique and the fabric feels so
-          comfortable. As a fellow designer, I appreciate the attention to
-          detail.
+          &quot;I absolutely love this! The design is unique and the fabric
+          feels so comfortable. As a fellow designer, I appreciate the attention
+          to detail.&quot;
         </p>
         <div className="flex gap-2">
           <Image
