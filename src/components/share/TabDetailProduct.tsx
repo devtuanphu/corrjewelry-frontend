@@ -133,7 +133,7 @@ const TabDetailProduct: React.FC<TabDetailProductProps> = ({ data }) => {
           {data[0]?.attributes?.feedbacks &&
             data[0]?.attributes?.feedbacks?.data?.map((item: any) => {
               return (
-                <div className="col-span-12 md:col-span-6">
+                <div className="col-span-12 md:col-span-6" key={item.id}>
                   <CardFeedBack data={item} />
                 </div>
               );

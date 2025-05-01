@@ -53,6 +53,7 @@ const CardFeedBack: React.FC<CardFeedBackProps> = ({ data }) => {
             data?.attributes?.images?.data?.map((item: any) => {
               return (
                 <Image
+                  key={item.id}
                   src={baseUrl + item?.attributes?.url}
                   alt="Feed back"
                   className="w-[80px] h-[80px]"

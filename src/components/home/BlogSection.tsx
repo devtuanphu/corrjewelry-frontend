@@ -24,7 +24,7 @@ const BlogSection: React.FC<BlogSectionProps> = async ({ data }) => {
             {data &&
               data.map((item: any) => {
                 return (
-                  <div className="col-span-12 md:col-span-4">
+                  <div className="col-span-12 md:col-span-4" key={item.id}>
                     <CartBlog data={item} />
                   </div>
                 );

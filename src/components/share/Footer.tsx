@@ -142,6 +142,7 @@ const Footer = async () => {
                   footer?.attributes?.take_care?.link?.map((item: any) => {
                     return (
                       <p
+                        key={item.label}
                         className={`text-[16px] font-medium text-[#ffffff] ${quicksand.className}`}
                       >
                         <Link href={`${item?.link}`}>{item?.label}</Link>
@@ -159,6 +160,7 @@ const Footer = async () => {
                   footer?.attributes?.about?.link?.map((item: any) => {
                     return (
                       <p
+                        key={item.label}
                         className={`text-[16px] font-medium text-[#ffffff] ${quicksand.className}`}
                       >
                         <Link href={`${item?.link}`}>{item?.label}</Link>

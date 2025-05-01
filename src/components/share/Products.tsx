@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import CartProduct from "./CartProduct";
 import { robotosand, quicksand } from "@/font";
 import Image from "next/image";
@@ -47,54 +47,134 @@ const Products: React.FC<ProductsProps> = ({
     selectedTags: [],
     selectedCategories: [],
   });
-  const fetchProducts = async (page: number) => {
-    const queryParams: any = {
-      page: page.toString(),
-      pageSize: pageSize.toString(),
-      slug: slug,
-      categorySlug: slug,
-      categoryDetailSlug: categorySlug,
-    };
+  // const fetchProducts = async (page: number) => {
+  //   const queryParams: any = {
+  //     page: page.toString(),
+  //     pageSize: pageSize.toString(),
+  //     slug: slug,
+  //     categorySlug: slug,
+  //     categoryDetailSlug: categorySlug,
+  //   };
 
-    // Thêm các tham số bộ lọc vào query nếu có giá trị
-    if (filters.selectedCategories.length > 0) {
-      queryParams.category = filters.selectedCategories.join(",");
-    }
+  //   // Thêm các tham số bộ lọc vào query nếu có giá trị
+  //   if (filters.selectedCategories.length > 0) {
+  //     queryParams.category = filters.selectedCategories.join(",");
+  //   }
 
-    if (filters.selectedSizes.length > 0) {
-      queryParams.size = filters.selectedSizes.join(",");
-    }
+  //   if (filters.selectedSizes.length > 0) {
+  //     queryParams.size = filters.selectedSizes.join(",");
+  //   }
 
-    if (filters.selectedTags.length > 0) {
-      if (filters.selectedTags.includes("isBestSeller" as never)) {
-        queryParams.isBestSeller = "true";
+  //   if (filters.selectedTags.length > 0) {
+  //     if (filters.selectedTags.includes("isBestSeller" as never)) {
+  //       queryParams.isBestSeller = "true";
+  //     }
+  //     if (filters.selectedTags.includes("isNewArrival" as never)) {
+  //       queryParams.isNewArrival = "true";
+  //     }
+  //     if (filters.selectedTags.includes("isSaleHome" as never)) {
+  //       queryParams.isSaleHome = "true";
+  //     }
+  //   }
+
+  //   // Thêm giá nếu có thay đổi
+  //   if (filters.priceRange[0] !== 0 || filters.priceRange[1] !== 5000) {
+  //     queryParams.startPrice = (filters.priceRange[0] * 1000).toString(); // Nhân giá với 1000
+  //     queryParams.endPrice = (filters.priceRange[1] * 1000).toString(); // Nhân giá với 1000
+  //   }
+
+  //   const url = `${endpoint}?${new URLSearchParams(queryParams).toString()}`;
+  //   const res = await fetch(url, {
+  //     headers: {
+  //       Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN_DEV}`,
+  //     },
+  //     cache: "no-store",
+  //   });
+  //   const data = await res.json();
+  //   setProductsData(data);
+  // };
+
+  // const fetchListDanhMucNam = async () => {
+  //   try {
+  //     const res = await fetch(`${endpointFilter}`, {
+  //       headers: {
+  //         Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN_DEV}`,
+  //       },
+  //       cache: "no-store",
+  //     });
+  //     const data = await res.json();
+  //     setListDanhMucNam(data?.data);
+  //   } catch (error) {
+  //     console.error("Lỗi khi lấy danh sách dữ liệu");
+  //   }
+  // };
+  // const fetchListSize = async () => {
+  //   try {
+  //     const res = await fetch(`${ENDPOINT.GET_LIST_SIZE}`, {
+  //       headers: {
+  //         Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN_DEV}`,
+  //       },
+  //       cache: "no-store",
+  //     });
+  //     const data = await res.json();
+  //     setListSize(data?.data);
+  //   } catch (error) {
+  //     console.error("Lỗi khi lấy danh sách dữ liệu");
+  //   }
+  // };
+
+  const fetchProducts = useCallback(
+    async (page: number) => {
+      const queryParams: any = {
+        page: page.toString(),
+        pageSize: pageSize.toString(),
+        slug: slug,
+        categorySlug: slug,
+        categoryDetailSlug: categorySlug,
+      };
+
+      // Thêm các tham số bộ lọc vào query nếu có giá trị
+      if (filters.selectedCategories.length > 0) {
+        queryParams.category = filters.selectedCategories.join(",");
       }
-      if (filters.selectedTags.includes("isNewArrival" as never)) {
-        queryParams.isNewArrival = "true";
+
+      if (filters.selectedSizes.length > 0) {
+        queryParams.size = filters.selectedSizes.join(",");
       }
-      if (filters.selectedTags.includes("isSaleHome" as never)) {
-        queryParams.isSaleHome = "true";
+
+      if (filters.selectedTags.length > 0) {
+        if (filters.selectedTags.includes("isBestSeller" as never)) {
+          queryParams.isBestSeller = "true";
+        }
+        if (filters.selectedTags.includes("isNewArrival" as never)) {
+          queryParams.isNewArrival = "true";
+        }
+        if (filters.selectedTags.includes("isSaleHome" as never)) {
+          queryParams.isSaleHome = "true";
+        }
       }
-    }
 
-    // Thêm giá nếu có thay đổi
-    if (filters.priceRange[0] !== 0 || filters.priceRange[1] !== 5000) {
-      queryParams.startPrice = (filters.priceRange[0] * 1000).toString(); // Nhân giá với 1000
-      queryParams.endPrice = (filters.priceRange[1] * 1000).toString(); // Nhân giá với 1000
-    }
+      // Thêm giá nếu có thay đổi
+      if (filters.priceRange[0] !== 0 || filters.priceRange[1] !== 5000) {
+        queryParams.startPrice = (filters.priceRange[0] * 1000).toString(); // Nhân giá với 1000
+        queryParams.endPrice = (filters.priceRange[1] * 1000).toString(); // Nhân giá với 1000
+      }
 
-    const url = `${endpoint}?${new URLSearchParams(queryParams).toString()}`;
-    const res = await fetch(url, {
-      headers: {
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN_DEV}`,
-      },
-      cache: "no-store",
-    });
-    const data = await res.json();
-    setProductsData(data);
-  };
+      const url = `${endpoint}?${new URLSearchParams(queryParams).toString()}`;
+      const res = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN_DEV}`,
+        },
+        cache: "no-store",
+      });
+      const data = await res.json();
+      setProductsData(data);
+    },
+    [filters, pageSize, endpoint, slug, categorySlug]
+  ); // Thêm dependencies
 
-  const fetchListDanhMucNam = async () => {
+  // Bọc hàm fetchListDanhMucNam trong useCallback
+  const fetchListDanhMucNam = useCallback(async () => {
     try {
       const res = await fetch(`${endpointFilter}`, {
         headers: {
@@ -107,8 +187,10 @@ const Products: React.FC<ProductsProps> = ({
     } catch (error) {
       console.error("Lỗi khi lấy danh sách dữ liệu");
     }
-  };
-  const fetchListSize = async () => {
+  }, [endpointFilter]); // Dependency cho fetchListDanhMucNam
+
+  // Bọc hàm fetchListSize trong useCallback
+  const fetchListSize = useCallback(async () => {
     try {
       const res = await fetch(`${ENDPOINT.GET_LIST_SIZE}`, {
         headers: {
@@ -121,13 +203,12 @@ const Products: React.FC<ProductsProps> = ({
     } catch (error) {
       console.error("Lỗi khi lấy danh sách dữ liệu");
     }
-  };
-
+  }, []);
   useEffect(() => {
     fetchProducts(currentPage);
     fetchListDanhMucNam();
     fetchListSize();
-  }, [currentPage, filters]);
+  }, [currentPage, filters, fetchProducts, fetchListDanhMucNam, fetchListSize]);
 
   const handleSelect = (option: string) => {
     setSelectedOption(option);

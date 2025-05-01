@@ -71,7 +71,7 @@ const CardSale: React.FC<CardSaleProps> = ({ data }) => {
         description: "Vui lòng đăng nhập để thực hiện thanh toán.",
       });
       setTimeout(() => {
-        window.location.href = "/dang-nhap"; // Chuyển hướng đến trang đăng nhập
+        window.location.href = "/dang-nhap";
       }, 500);
       return;
     }

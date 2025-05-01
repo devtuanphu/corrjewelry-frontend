@@ -1,6 +1,6 @@
 "use client";
+import { useState, useEffect, useCallback } from "react";
 import BreadcrumbBlack from "@/components/share/BreadcrumbBlack";
-import React, { useEffect, useState } from "react";
 import { quicksand, robotosand } from "@/font";
 import CardProductOrder from "@/components/share/CardProductOrder";
 import Image from "next/image";
@@ -12,7 +12,7 @@ import { ENDPOINT } from "@/enums/endpoint.enum";
 import { notification } from "antd";
 import { createOrderService, generateOrderId } from "@/utils/button";
 
-const page = () => {
+const Page = () => {
   const paths = [
     { label: "Trang chủ", link: "/" },
     { label: "Giỏ hàng", link: "#" },
@@ -54,12 +54,13 @@ const page = () => {
     } else {
     }
   };
+
   const fetchCartByUser = async () => {
     const userId = localStorage.getItem("userId");
     try {
       const data: any = await apiService.get(
         `${ENDPOINT.GET_CART_BY_USER}/${userId}/cart`
-      ); // Gọi API với endpoint của bạn
+      );
       setCartData(data?.carts);
     } catch (error) {
       console.error("Error fetching header data:", error);
@@ -68,40 +69,34 @@ const page = () => {
 
   const fetchPhiVanChuyen = async () => {
     try {
-      const data: any = await apiService.get(`${ENDPOINT.GET_PHI_VAN_CHUYEN}`); // Gọi API với endpoint của bạn
+      const data: any = await apiService.get(`${ENDPOINT.GET_PHI_VAN_CHUYEN}`);
       setPhiVanChuyen(data?.data?.attributes?.fee);
     } catch (error) {
       console.error("Lỗi khi lấy dữ liệu", error);
     }
   };
+
   useEffect(() => {
     fetchCartByUser();
     fetchPhiVanChuyen();
     checkLoginStatus();
   }, []);
+
+  // Sử dụng useCallback để tránh việc tái tạo lại hàm calculateTotalPrice
+  const calculateTotalPrice = useCallback(() => {
+    let total = 0;
+    cartData?.forEach((item: any) => {
+      total += item?.price * item.amount;
+    });
+    return total;
+  }, [cartData]); // cartData sẽ là dependency để tính lại giá trị tổng khi có sự thay đổi
+
   useEffect(() => {
     if (cartData) {
       setFinalAmount(calculateTotalPrice());
     }
-  }, [cartData]);
-  const calculateTotalPrice = () => {
-    let total = 0;
+  }, [cartData, calculateTotalPrice]); // Đưa calculateTotalPrice vào dependency của useEffect
 
-    // Lặp qua tất cả các sản phẩm trong giỏ hàng và cộng dồn tổng tiền
-    cartData?.forEach((item: any) => {
-      // const selectedSizeObj = item?.san_pham?.size?.find(
-      //   (size: any) => size.size === item.size
-      // );
-      // if (selectedSizeObj) {
-      //   total += selectedSizeObj.price * item.amount; // Tổng = giá * số lượng
-      // }
-      console.log(item);
-
-      total += item?.price * item.amount;
-    });
-
-    return total;
-  };
   const handleVoucherCodeChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -109,11 +104,12 @@ const page = () => {
     setVoucherCode(value);
 
     if (value.length > 0) {
-      setIsButtonDisabled(false); // Enable the button when input has value
+      setIsButtonDisabled(false);
     } else {
-      setIsButtonDisabled(true); // Disable the button if input is empty
+      setIsButtonDisabled(true);
     }
   };
+
   const checkVoucher = async () => {
     setShowNotication(false);
     if (!voucherCode) {
@@ -126,34 +122,28 @@ const page = () => {
 
     try {
       const response: any = await apiService.post(
-        `${ENDPOINT.GET_CHECK_VOUCHER}`, // Endpoint của bạn
+        `${ENDPOINT.GET_CHECK_VOUCHER}`,
         { code: voucherCode, totalAmount: calculateTotalPrice() }
       );
 
       if (response?.voucher) {
         const voucher = response.voucher;
-        const totalAmount = calculateTotalPrice(); // Lấy tổng đơn hàng
-
+        const totalAmount = calculateTotalPrice();
         let discount = 0;
         let rate = 0;
 
-        // Kiểm tra kiểu giảm giá
         if (voucher.type === "Giảm giá theo %") {
-          discount = (totalAmount * voucher.gia_tri_giam) / 100; // Giảm theo phần trăm
+          discount = (totalAmount * voucher.gia_tri_giam) / 100;
           rate = voucher.gia_tri_giam;
         } else if (voucher.type === "Giảm giá trực tiếp") {
-          discount = voucher.gia_tri_giam; // Giảm theo số tiền trực tiếp
+          discount = voucher.gia_tri_giam;
         }
 
         setVoucherId(voucher?.id);
-        // Tính tổng tiền sau giảm giá
         const finalTotal = totalAmount - discount;
 
-        // Lưu giá trị giảm và tổng tiền cuối
         setVoucherDiscount(discount);
         setFinalAmount(finalTotal);
-
-        // Cập nhật trạng thái voucher hợp lệ
         setIsVoucherValid(true);
 
         notification.success({
@@ -180,49 +170,43 @@ const page = () => {
   };
 
   const createOrder = async () => {
-    // Lấy ngày hiện tại
-    const currentDate = new Date().toISOString(); // Sử dụng ISO String để đảm bảo tương thích với kiểu Date của Strapi
-
-    // Tạo ID đơn hàng ngẫu nhiên
+    const currentDate = new Date().toISOString();
     const ID_order = generateOrderId();
 
-    // Tạo mảng các item từ cartData
     const items = cartData.map((item: any) => ({
       amount: item.amount,
-      san_pham: item.san_pham.id, // ID sản phẩm
+      san_pham: item.san_pham.id,
       size: item.size,
       price: item.price,
       idCart: item.idCart,
     }));
 
-    // Tạo dữ liệu đơn hàng
     const orderData = {
-      user: userData.id, // Lấy ID người dùng
-      ID_order, // ID đơn hàng
-      date_order: currentDate, // Ngày hiện tại
-      status: "Nháp", // Trạng thái mặc định là "Nháp"
-      items, // Mảng các sản phẩm
-      voucher: voucherId, // Lấy ID của voucher hợp lệ
-      finalAmount: finalAmount ? finalAmount : calculateTotalPrice(), // Tổng tiền sau giảm giá
+      user: userData.id,
+      ID_order,
+      date_order: currentDate,
+      status: "Nháp",
+      items,
+      voucher: voucherId,
+      finalAmount: finalAmount ? finalAmount : calculateTotalPrice(),
       price_not_reduced: calculateTotalPrice(),
     };
 
     try {
-      // Gọi createOrderService để tạo đơn hàng nháp
       const response: any = await createOrderService(orderData);
 
       setTimeout(() => {
         window.location.href = `/thanh-toan?id=${response?.data?.attributes?.ID_order}`;
       }, 500);
-      return response; // Trả về dữ liệu đơn hàng hoặc thông báo thành công
+      return response;
     } catch (error) {
-      // Xử lý lỗi khi tạo đơn hàng
       console.error("Lỗi khi tạo đơn hàng:", error);
-      throw error; // Ném lỗi hoặc trả về thông báo lỗi
+      throw error;
     }
   };
 
   const amountTotal = finalAmount + phiVanChuyen;
+
   return (
     <div className="container py-8">
       <BreadcrumbBlack paths={paths} />
@@ -233,7 +217,7 @@ const page = () => {
           Giỏ hàng của bạn
         </h5>
         <span className={`${quicksand.className} text-[15px]`}>
-          ( <span className="font-bold">2</span> sản phẩm )
+          ( <span className="font-bold">{cartData?.length}</span> sản phẩm )
         </span>
       </div>
       <div className="grid grid-cols-12 gap-4">
@@ -325,4 +309,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

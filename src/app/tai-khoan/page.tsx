@@ -38,9 +38,8 @@ const Page = () => {
 
           if (response.ok && data.id) {
             setUserData(data);
-            setPicture(BASE_URL + data.picture.url);
+            setPicture(data.picture.url); // Không cần cho BASE_URL vào dependency
           } else {
-            // Xử lý lỗi khi không có dữ liệu hợp lệ
             console.error("Không có dữ liệu người dùng.");
           }
         } catch (error) {
@@ -54,7 +53,7 @@ const Page = () => {
       }
     };
     fetchHeaderData();
-  }, []);
+  }, []); // Không cần BASE_URL ở đây, vì nó là một giá trị cố định
 
   const showModal = (order: any) => {
     setSelectedOrder(order);
@@ -386,7 +385,7 @@ const Page = () => {
                   <div className="flex justify-center">
                     <div className="relative w-max">
                       <Image
-                        src={picture || ""}
+                        src={BASE_URL + picture || ""}
                         className="w-[80px] h-[80px] rounded-full max-w-full object-cover"
                         width={80}
                         height={80}

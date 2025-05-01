@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import CartBlog from "../share/CartBlog";
 import { robotosand } from "@/font";
 import Image from "next/image";
@@ -14,35 +14,63 @@ const MainBlog = () => {
   const [pageSize] = useState(9); // Số lượng blog trên mỗi trang
 
   // Hàm fetch để lấy danh sách blog
-  const fetchBlogs = async (page: number) => {
-    const queryParams: any = {
-      "pagination[page]": page.toString(), // Sử dụng 'page' thay cho 'offset'
-      "pagination[pageSize]": pageSize.toString(),
-      populate: "seo.thumbnail",
-    };
+  // const fetchBlogs = async (page: number) => {
+  //   const queryParams: any = {
+  //     "pagination[page]": page.toString(), // Sử dụng 'page' thay cho 'offset'
+  //     "pagination[pageSize]": pageSize.toString(),
+  //     populate: "seo.thumbnail",
+  //   };
 
-    const url = `${ENDPOINT.GET_BLOG}?${new URLSearchParams(
-      queryParams
-    ).toString()}`;
-    const res = await fetch(url, {
-      headers: {
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN_DEV}`,
-      },
-      cache: "no-store",
-    });
+  //   const url = `${ENDPOINT.GET_BLOG}?${new URLSearchParams(
+  //     queryParams
+  //   ).toString()}`;
+  //   const res = await fetch(url, {
+  //     headers: {
+  //       Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN_DEV}`,
+  //     },
+  //     cache: "no-store",
+  //   });
 
-    if (res.ok) {
-      const data = await res.json();
-      setBlogData(data?.data); // Set dữ liệu blog
-      setTotalPages(data?.meta?.pagination?.pageCount); // Cập nhật tổng số trang từ API
-    } else {
-      console.error("Failed to fetch blog data");
-    }
-  };
+  //   if (res.ok) {
+  //     const data = await res.json();
+  //     setBlogData(data?.data); // Set dữ liệu blog
+  //     setTotalPages(data?.meta?.pagination?.pageCount); // Cập nhật tổng số trang từ API
+  //   } else {
+  //     console.error("Failed to fetch blog data");
+  //   }
+  // };
+  const fetchBlogs = useCallback(
+    async (page: number) => {
+      const queryParams: any = {
+        "pagination[page]": page.toString(), // Sử dụng 'page' thay cho 'offset'
+        "pagination[pageSize]": pageSize.toString(),
+        populate: "seo.thumbnail",
+      };
+
+      const url = `${ENDPOINT.GET_BLOG}?${new URLSearchParams(
+        queryParams
+      ).toString()}`;
+      const res = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN_DEV}`,
+        },
+        cache: "no-store",
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        setBlogData(data?.data); // Set dữ liệu blog
+        setTotalPages(data?.meta?.pagination?.pageCount); // Cập nhật tổng số trang từ API
+      } else {
+        console.error("Failed to fetch blog data");
+      }
+    },
+    [pageSize]
+  ); // Chỉ phụ thuộc vào pageSize
 
   useEffect(() => {
     fetchBlogs(currentPage); // Fetch dữ liệu khi component mount hoặc khi thay đổi trang
-  }, [currentPage]); // Phụ thuộc vào currentPage
+  }, [currentPage, fetchBlogs]); // Phụ thuộc vào currentPage
 
   const handlePageChange = (page: number) => {
     if (page >= 1 && page <= totalPages) {

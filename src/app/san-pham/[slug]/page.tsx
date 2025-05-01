@@ -149,7 +149,7 @@ const page = async ({ params }: { params: { slug: string } }) => {
           </h2>
         </div>
         <div className="grid grid-cols-12 gap-2 md:gap-4">
-          <div className="col-span-6 md:col-span-3">
+          {/* <div className="col-span-6 md:col-span-3">
             <CartProduct />
           </div>
           <div className="col-span-6 md:col-span-3">
@@ -160,7 +160,7 @@ const page = async ({ params }: { params: { slug: string } }) => {
           </div>
           <div className="col-span-6 md:col-span-3">
             <CartProduct />
-          </div>
+          </div> */}
         </div>
       </div>
       <WhyChooseUs dataWhy={dataWhy} />

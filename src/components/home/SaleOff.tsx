@@ -155,9 +155,12 @@ const SaleOff = () => {
                   {productSale &&
                     productSale?.map((item: any) => {
                       return (
-                        <SwiperSlide className="!w-full !flex-none relative overflow-hidden">
+                        <SwiperSlide
+                          key={item.id}
+                          className="!w-full !flex-none relative overflow-hidden"
+                        >
                           <div className="w-full relative z-10">
-                            <CardSale data={item} key={item.id} />
+                            <CardSale data={item} />
                           </div>
                         </SwiperSlide>
                       );
