@@ -23,6 +23,11 @@ const nextConfig = {
         port: "1337", // Port mà Strapi đang chạy
         pathname: "/uploads/**", // Đảm bảo các đường dẫn hình ảnh trong Strapi sẽ được nhận diện
       },
+      {
+        protocol: "https",
+        hostname: "admin.corrjewelry.vn",
+        pathname: "/uploads/**",
+      },
     ],
   },
 };
