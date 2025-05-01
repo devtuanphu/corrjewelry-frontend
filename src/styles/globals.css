@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+body {
+  background-color: #f5f5f5;
+}
+.ant-radio-button-wrapper-checked {
+  background-color: #141414 !important;
+  color: white !important;
+}
+.custom-checkbox .ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #000000 !important;
+  border-color: #000000 !important;
+}
+
+/* Đảm bảo checkbox có đủ kích thước đẹp */
+.custom-checkbox .ant-checkbox-inner {
+  width: 16px;
+  height: 16px;
+}
+.active-tab-profile {
+  font-weight: bold;
+  border-bottom: #000000 1px solid;
+  color: #000 !important;
+}
+.cart-items {
+  max-height: 500px; /* Chỉnh chiều cao cố định phù hợp */
+  overflow-y: auto; /* Cho phép cuộn khi có quá nhiều item */
+}
+
+.cart-footer {
+  /* Giữ footer luôn ở dưới cùng */
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+}
+.truncate-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Limit to 3 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+:where(.css-dev-only-do-not-override-1d4w9r2).ant-slider
+  .ant-slider-handle::after {
+  box-shadow: 0 0 0 2px #000 !important;
+  background-color: #000 !important;
+}
+@media (max-width: 380px) {
+  .link-header {
+    font-size: 14px !important;
+  }
+}
+
+@media (min-width: 600px) {
+  .text-danh-muc {
+    font-size: 20px;
+  }
+}
