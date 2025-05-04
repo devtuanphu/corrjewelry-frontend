@@ -35,11 +35,10 @@ const HeaderMobile = () => {
   useEffect(() => {
     if (isSafari) {
       const handleScroll = () => {
+        const currentScrollPos = window.scrollY; // Vị trí cuộn hiện tại
         const drawerContent = document.querySelector(".drawer-content");
 
         if (drawerContent) {
-          const currentScrollPos = window.scrollY; // Vị trí cuộn hiện tại
-
           // Nếu cuộn xuống, lưu trạng thái là đã cuộn
           if (currentScrollPos > prevScrollPos && currentScrollPos > 50) {
             setIsScrolled(true);
@@ -67,6 +66,7 @@ const HeaderMobile = () => {
     if (isSafari && isMenuOpen) {
       const drawerContent = document.querySelector(".drawer-content");
       if (drawerContent) {
+        // Kiểm tra trạng thái cuộn và áp dụng class tương ứng
         if (isScrolled) {
           drawerContent.classList.add("safari-scrolled");
         } else {
