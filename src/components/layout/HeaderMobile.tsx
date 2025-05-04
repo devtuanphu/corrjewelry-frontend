@@ -32,6 +32,7 @@ const HeaderMobile = () => {
     setIsSafari(isSafariBrowser);
   }, []);
 
+  // Lắng nghe sự kiện cuộn và điều chỉnh padding
   useEffect(() => {
     if (isSafari) {
       const handleScroll = () => {
@@ -40,14 +41,17 @@ const HeaderMobile = () => {
         if (drawerContent) {
           const currentScrollPos = window.scrollY; // Vị trí cuộn hiện tại
 
+          // Nếu Sidebar chưa mở, vẫn có thể áp dụng padding mặc định khi cuộn xuống
+          if (!isMenuOpen) {
+            drawerContent.classList.add("safari-scrolled");
+          }
+
           // Nếu cuộn xuống và thanh công cụ bị ẩn, thay đổi padding
           if (currentScrollPos > prevScrollPos && currentScrollPos > 50) {
-            // Cuộn xuống -> ẩn thanh công cụ
             drawerContent.classList.add("safari-scrolled");
           }
           // Nếu cuộn lên và thanh công cụ xuất hiện lại, khôi phục padding
           else if (currentScrollPos < prevScrollPos || currentScrollPos <= 50) {
-            // Cuộn lên -> thanh công cụ xuất hiện lại
             drawerContent.classList.remove("safari-scrolled");
           }
 
@@ -62,22 +66,7 @@ const HeaderMobile = () => {
         window.removeEventListener("scroll", handleScroll);
       };
     }
-  }, [isSafari, prevScrollPos]);
-
-  // useEffect(() => {
-  //   if (isMenuOpen) {
-  //     // Vô hiệu hóa cuộn trên body khi Drawer mở
-  //     document.body.style.overflow = "hidden";
-  //   } else {
-  //     // Khôi phục cuộn khi Drawer đóng
-  //     document.body.style.overflow = "auto";
-  //   }
-
-  //   return () => {
-  //     // Đảm bảo luôn khôi phục cuộn khi component unmount
-  //     document.body.style.overflow = "auto";
-  //   };
-  // }, [isMenuOpen]);
+  }, [isSafari, prevScrollPos, isMenuOpen]);
 
   const BASE_URL = process.env.NEXT_PUBLIC_URL_BE;
   const fetchHeaderData = async () => {
