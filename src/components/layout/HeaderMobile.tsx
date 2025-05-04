@@ -64,20 +64,20 @@ const HeaderMobile = () => {
     }
   }, [isSafari, prevScrollPos]);
 
-  useEffect(() => {
-    if (isMenuOpen) {
-      // Vô hiệu hóa cuộn trên body khi Drawer mở
-      document.body.style.overflow = "hidden";
-    } else {
-      // Khôi phục cuộn khi Drawer đóng
-      document.body.style.overflow = "auto";
-    }
+  // useEffect(() => {
+  //   if (isMenuOpen) {
+  //     // Vô hiệu hóa cuộn trên body khi Drawer mở
+  //     document.body.style.overflow = "hidden";
+  //   } else {
+  //     // Khôi phục cuộn khi Drawer đóng
+  //     document.body.style.overflow = "auto";
+  //   }
 
-    return () => {
-      // Đảm bảo luôn khôi phục cuộn khi component unmount
-      document.body.style.overflow = "auto";
-    };
-  }, [isMenuOpen]);
+  //   return () => {
+  //     // Đảm bảo luôn khôi phục cuộn khi component unmount
+  //     document.body.style.overflow = "auto";
+  //   };
+  // }, [isMenuOpen]);
 
   const BASE_URL = process.env.NEXT_PUBLIC_URL_BE;
   const fetchHeaderData = async () => {
