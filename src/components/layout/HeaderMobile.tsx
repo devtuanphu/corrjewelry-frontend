@@ -25,6 +25,8 @@ const HeaderMobile = () => {
   const [isSafari, setIsSafari] = useState(false);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
+  const [userData, setUserData] = useState<any>(null);
 
   useEffect(() => {
     const isSafariBrowser =
@@ -92,9 +94,40 @@ const HeaderMobile = () => {
       console.error("Error fetching header data:", error);
     }
   };
+
+  const checkLoginStatus = async () => {
+    const jwtToken = localStorage.getItem("jwt");
+
+    if (jwtToken) {
+      try {
+        const response = await fetch(`${ENDPOINT.GET_ME}?populate=picture`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.id) {
+          setIsLoggedIn(true);
+          setUserData(data);
+        } else {
+          setIsLoggedIn(false); // Nếu không có ID hoặc API không trả về hợp lệ
+        }
+      } catch (error) {
+        console.error("Lỗi khi lấy dữ liệu người dùng:", error);
+        setIsLoggedIn(false); // Nếu có lỗi, coi như người dùng chưa đăng nhập
+      }
+    } else {
+      setIsLoggedIn(false); // Không có JWT token
+    }
+  };
   useEffect(() => {
     fetchHeaderSale();
     fetchHeaderData();
+    checkLoginStatus();
   }, []);
 
   const handleToggle = (index: number) => {
@@ -142,6 +175,8 @@ const HeaderMobile = () => {
       slug: "sale-off",
     },
   ];
+
+  console.log(userData);
 
   return (
     <>
@@ -322,43 +357,63 @@ const HeaderMobile = () => {
             </div>
           </div>
           <div className="drawer-content">
-            <div className="flex justify-between items-center">
-              <div>
-                <Image
-                  src={AvatarImage}
-                  alt="người dùng"
-                  className="w-[32px] h-[32px] rounded-full"
-                />
+            {isLoggedIn ? (
+              <div className="flex justify-between items-center">
+                <Link href="/tai-khoan" onClick={() => toggleMenu()}>
+                  <Image
+                    src={BASE_URL + userData?.picture?.url}
+                    alt="người dùng"
+                    width={32}
+                    height={32}
+                    className="w-[32px] h-[32px] rounded-full"
+                  />
+                </Link>
+                <Link
+                  onClick={() => toggleMenu()}
+                  className="text-[#595959] link-header text-[16px] font-medium"
+                  href="/gioi-thieu"
+                >
+                  Giới Thiệu
+                </Link>
+                <Link
+                  onClick={() => toggleMenu()}
+                  className="text-[#595959] link-header text-[16px] font-medium"
+                  href="/bang-size"
+                >
+                  Bảng size
+                </Link>
+                <Link
+                  onClick={() => toggleMenu()}
+                  className="text-[#595959] link-header text-[16px] font-medium"
+                  href="/blog"
+                >
+                  Blog
+                </Link>
+                <Link
+                  onClick={() => toggleMenu()}
+                  className="text-[#595959] link-header text-[16px] font-medium"
+                  href="/lien-he"
+                >
+                  Liên Hệ
+                </Link>
               </div>
-              <Link
-                onClick={() => toggleMenu()}
-                className="text-[#595959] link-header text-[16px] font-medium"
-                href="/gioi-thieu"
-              >
-                Giới Thiệu
-              </Link>
-              <Link
-                onClick={() => toggleMenu()}
-                className="text-[#595959] link-header text-[16px] font-medium"
-                href="/bang-size"
-              >
-                Bảng size
-              </Link>
-              <Link
-                onClick={() => toggleMenu()}
-                className="text-[#595959] link-header text-[16px] font-medium"
-                href="/blog"
-              >
-                Blog
-              </Link>
-              <Link
-                onClick={() => toggleMenu()}
-                className="text-[#595959] link-header text-[16px] font-medium"
-                href="/lien-he"
-              >
-                Liên Hệ
-              </Link>
-            </div>
+            ) : (
+              <div className="flex flex-col gap-[16px]">
+                <h5
+                  className={`text-[#383838] font-medium text-[12px] text-center ${quicksand.className}`}
+                >
+                  Vui lòng <span className="font-bold">đăng nhập/đăng ký</span>{" "}
+                  để nhận các ưu đãi từ CORR
+                </h5>
+                <Link
+                  onClick={() => toggleMenu()}
+                  href="/dang-nhap"
+                  className={` ${quicksand.className} text-center w-full py-[10px] text-[#fff] bg-[#383838] rounded-[4px]`}
+                >
+                  Đăng nhập/Đăng ký
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </Drawer>
