@@ -57,10 +57,10 @@ body {
     font-size: 20px;
   }
 }
-@supports (-webkit-touch-callout: none) {
-  .drawer-content {
-    padding-bottom: env(
-      safe-area-inset-bottom
-    ); /* Đảm bảo không bị che khuất */
+@media all and (max-width: 767px) {
+  @supports (-webkit-touch-callout: none) {
+    .drawer-content {
+      padding-bottom: 50px; /* Điều chỉnh padding-bottom cho Safari */
+    }
   }
 }

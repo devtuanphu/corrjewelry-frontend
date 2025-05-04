@@ -267,7 +267,7 @@ const HeaderMobile = () => {
               </div>
             </div>
           </div>
-          <div className="">
+          <div className="drawer-content">
             <div className="flex justify-between items-center">
               <div>
                 <Image
