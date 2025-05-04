@@ -23,6 +23,7 @@ const HeaderMobile = () => {
   const [headSale, setHeadSale] = useState<any>(null);
   const [headerData, setHeaderData] = useState<any>(null);
   const [isSafari, setIsSafari] = useState(false);
+  const [prevScrollPos, setPrevScrollPos] = useState(0);
   useEffect(() => {
     // Kiểm tra trình duyệt Safari
     const isSafariBrowser =
@@ -35,12 +36,19 @@ const HeaderMobile = () => {
         const drawerContent = document.querySelector(".drawer-content");
 
         if (drawerContent) {
-          // Kiểm tra scroll để thay đổi padding-bottom
-          if (window.scrollY > 50) {
+          const currentScrollPos = window.scrollY;
+
+          // Nếu cuộn xuống và thanh công cụ ẩn đi, thay đổi padding
+          if (currentScrollPos > 50) {
             drawerContent.classList.add("safari-scrolled");
-          } else {
+          }
+          // Nếu cuộn lên và thanh công cụ xuất hiện lại, khôi phục padding
+          else {
             drawerContent.classList.remove("safari-scrolled");
           }
+
+          // Cập nhật vị trí cuộn trước
+          setPrevScrollPos(currentScrollPos);
         }
       };
 

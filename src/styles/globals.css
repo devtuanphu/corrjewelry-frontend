@@ -61,7 +61,7 @@ body {
   /* Đảm bảo chỉ áp dụng cho Safari */
   @supports (-webkit-touch-callout: none) {
     .drawer-content {
-      padding-bottom: 50px; /* Giá trị mặc định */
+      padding-bottom: 70px; /* Giá trị mặc định */
       transition: padding-bottom 0.3s ease; /* Thêm hiệu ứng khi thay đổi padding */
     }
 
