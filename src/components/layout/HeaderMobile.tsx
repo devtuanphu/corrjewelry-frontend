@@ -40,18 +40,13 @@ const HeaderMobile = () => {
         if (drawerContent) {
           const currentScrollPos = window.scrollY; // Vị trí cuộn hiện tại
 
-          // Nếu Sidebar chưa mở, kiểm tra và áp dụng padding nếu đã cuộn
-          if (!isMenuOpen && currentScrollPos > 0) {
-            setIsScrolled(true); // Lưu lại trạng thái cuộn
-          }
-
-          // Nếu cuộn xuống và thanh công cụ bị ẩn, thay đổi padding
+          // Nếu cuộn xuống, lưu trạng thái là đã cuộn
           if (currentScrollPos > prevScrollPos && currentScrollPos > 50) {
-            drawerContent.classList.add("safari-scrolled");
+            setIsScrolled(true);
           }
-          // Nếu cuộn lên và thanh công cụ xuất hiện lại, khôi phục padding
+          // Nếu cuộn lên, lưu trạng thái là chưa cuộn
           else if (currentScrollPos < prevScrollPos || currentScrollPos <= 50) {
-            drawerContent.classList.remove("safari-scrolled");
+            setIsScrolled(false);
           }
 
           // Cập nhật vị trí cuộn trước (prevScrollPos)
@@ -59,19 +54,27 @@ const HeaderMobile = () => {
         }
       };
 
-      // Cập nhật scroll position lần đầu nếu sidebar đã mở
-      if (isMenuOpen) {
-        const currentScrollPos = window.scrollY;
-        setPrevScrollPos(currentScrollPos); // Cập nhật prevScrollPos khi sidebar mở
-      }
-
       window.addEventListener("scroll", handleScroll);
 
       return () => {
         window.removeEventListener("scroll", handleScroll);
       };
     }
-  }, [isSafari, prevScrollPos, isMenuOpen]);
+  }, [isSafari, prevScrollPos]);
+
+  // Khi mở Sidebar, kiểm tra nếu đã cuộn
+  useEffect(() => {
+    if (isSafari && isMenuOpen) {
+      const drawerContent = document.querySelector(".drawer-content");
+      if (drawerContent) {
+        if (isScrolled) {
+          drawerContent.classList.add("safari-scrolled");
+        } else {
+          drawerContent.classList.remove("safari-scrolled");
+        }
+      }
+    }
+  }, [isMenuOpen, isScrolled, isSafari]);
   const BASE_URL = process.env.NEXT_PUBLIC_URL_BE;
   const fetchHeaderData = async () => {
     try {
@@ -93,14 +96,7 @@ const HeaderMobile = () => {
     fetchHeaderSale();
     fetchHeaderData();
   }, []);
-  useEffect(() => {
-    if (isSafari && isMenuOpen && isScrolled) {
-      const drawerContent = document.querySelector(".drawer-content");
-      if (drawerContent) {
-        drawerContent.classList.add("safari-scrolled");
-      }
-    }
-  }, [isSafari, isMenuOpen, isScrolled]);
+
   const handleToggle = (index: number) => {
     setActiveIndex((prevIndex) => (prevIndex === index ? null : index));
   };
