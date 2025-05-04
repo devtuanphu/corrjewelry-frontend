@@ -24,30 +24,34 @@ const HeaderMobile = () => {
   const [headerData, setHeaderData] = useState<any>(null);
   const [isSafari, setIsSafari] = useState(false);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
+
   useEffect(() => {
-    // Kiểm tra trình duyệt Safari
     const isSafariBrowser =
       /Safari/.test(navigator.userAgent) &&
       /Apple Computer/.test(navigator.vendor);
     setIsSafari(isSafariBrowser);
+  }, []);
 
-    if (isSafariBrowser) {
+  useEffect(() => {
+    if (isSafari) {
       const handleScroll = () => {
         const drawerContent = document.querySelector(".drawer-content");
 
         if (drawerContent) {
-          const currentScrollPos = window.scrollY;
+          const currentScrollPos = window.scrollY; // Vị trí cuộn hiện tại
 
-          // Nếu cuộn xuống và thanh công cụ ẩn đi, thay đổi padding
-          if (currentScrollPos > 50) {
+          // Nếu cuộn xuống và thanh công cụ bị ẩn, thay đổi padding
+          if (currentScrollPos > prevScrollPos && currentScrollPos > 50) {
+            // Cuộn xuống -> ẩn thanh công cụ
             drawerContent.classList.add("safari-scrolled");
           }
           // Nếu cuộn lên và thanh công cụ xuất hiện lại, khôi phục padding
-          else {
+          else if (currentScrollPos < prevScrollPos || currentScrollPos <= 50) {
+            // Cuộn lên -> thanh công cụ xuất hiện lại
             drawerContent.classList.remove("safari-scrolled");
           }
 
-          // Cập nhật vị trí cuộn trước
+          // Cập nhật vị trí cuộn trước (prevScrollPos)
           setPrevScrollPos(currentScrollPos);
         }
       };
@@ -58,7 +62,7 @@ const HeaderMobile = () => {
         window.removeEventListener("scroll", handleScroll);
       };
     }
-  }, [isSafari]);
+  }, [isSafari, prevScrollPos]);
 
   const BASE_URL = process.env.NEXT_PUBLIC_URL_BE;
   const fetchHeaderData = async () => {
