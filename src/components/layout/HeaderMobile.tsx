@@ -39,7 +39,7 @@ const HeaderMobile = () => {
         if (drawerContent) {
           const currentScrollPos = window.scrollY; // Vị trí cuộn hiện tại
 
-          // Kiểm tra nếu Sidebar chưa mở thì vẫn có thể áp dụng padding mặc định khi cuộn xuống
+          // Nếu Sidebar chưa mở, kiểm tra và áp dụng padding nếu đã cuộn
           if (!isMenuOpen && currentScrollPos > 0) {
             drawerContent.classList.add("safari-scrolled");
           }
@@ -58,20 +58,19 @@ const HeaderMobile = () => {
         }
       };
 
-      window.addEventListener("scroll", handleScroll);
-
       // Cập nhật scroll position lần đầu nếu sidebar đã mở
       if (isMenuOpen) {
         const currentScrollPos = window.scrollY;
         setPrevScrollPos(currentScrollPos); // Cập nhật prevScrollPos khi sidebar mở
       }
 
+      window.addEventListener("scroll", handleScroll);
+
       return () => {
         window.removeEventListener("scroll", handleScroll);
       };
     }
-  }, [isSafari, prevScrollPos, isMenuOpen]); // Xử lý với các thay đổi ở isSafari, prevScrollPos và isMenuOpen
-
+  }, [isSafari, prevScrollPos, isMenuOpen]);
   const BASE_URL = process.env.NEXT_PUBLIC_URL_BE;
   const fetchHeaderData = async () => {
     try {
