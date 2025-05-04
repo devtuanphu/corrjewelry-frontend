@@ -58,10 +58,6 @@ body {
   }
 }
 @supports (-webkit-touch-callout: none) {
-  .drawer {
-    height: calc(100vh - env(safe-area-inset-bottom));
-  }
-
   .drawer-content {
     padding-bottom: env(
       safe-area-inset-bottom
