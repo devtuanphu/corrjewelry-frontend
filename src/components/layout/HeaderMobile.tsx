@@ -31,8 +31,6 @@ const HeaderMobile = () => {
       /Apple Computer/.test(navigator.vendor);
     setIsSafari(isSafariBrowser);
   }, []);
-
-  // Lắng nghe sự kiện cuộn và điều chỉnh padding
   useEffect(() => {
     if (isSafari) {
       const handleScroll = () => {
@@ -41,8 +39,8 @@ const HeaderMobile = () => {
         if (drawerContent) {
           const currentScrollPos = window.scrollY; // Vị trí cuộn hiện tại
 
-          // Nếu Sidebar chưa mở, vẫn có thể áp dụng padding mặc định khi cuộn xuống
-          if (!isMenuOpen) {
+          // Kiểm tra nếu Sidebar chưa mở thì vẫn có thể áp dụng padding mặc định khi cuộn xuống
+          if (!isMenuOpen && currentScrollPos > 0) {
             drawerContent.classList.add("safari-scrolled");
           }
 
@@ -62,11 +60,17 @@ const HeaderMobile = () => {
 
       window.addEventListener("scroll", handleScroll);
 
+      // Cập nhật scroll position lần đầu nếu sidebar đã mở
+      if (isMenuOpen) {
+        const currentScrollPos = window.scrollY;
+        setPrevScrollPos(currentScrollPos); // Cập nhật prevScrollPos khi sidebar mở
+      }
+
       return () => {
         window.removeEventListener("scroll", handleScroll);
       };
     }
-  }, [isSafari, prevScrollPos, isMenuOpen]);
+  }, [isSafari, prevScrollPos, isMenuOpen]); // Xử lý với các thay đổi ở isSafari, prevScrollPos và isMenuOpen
 
   const BASE_URL = process.env.NEXT_PUBLIC_URL_BE;
   const fetchHeaderData = async () => {
