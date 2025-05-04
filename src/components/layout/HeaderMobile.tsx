@@ -24,6 +24,7 @@ const HeaderMobile = () => {
   const [headerData, setHeaderData] = useState<any>(null);
   const [isSafari, setIsSafari] = useState(false);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     const isSafariBrowser =
@@ -41,7 +42,7 @@ const HeaderMobile = () => {
 
           // Nếu Sidebar chưa mở, kiểm tra và áp dụng padding nếu đã cuộn
           if (!isMenuOpen && currentScrollPos > 0) {
-            drawerContent.classList.add("safari-scrolled");
+            setIsScrolled(true); // Lưu lại trạng thái cuộn
           }
 
           // Nếu cuộn xuống và thanh công cụ bị ẩn, thay đổi padding
@@ -92,6 +93,14 @@ const HeaderMobile = () => {
     fetchHeaderSale();
     fetchHeaderData();
   }, []);
+  useEffect(() => {
+    if (isSafari && isMenuOpen && isScrolled) {
+      const drawerContent = document.querySelector(".drawer-content");
+      if (drawerContent) {
+        drawerContent.classList.add("safari-scrolled");
+      }
+    }
+  }, [isSafari, isMenuOpen, isScrolled]);
   const handleToggle = (index: number) => {
     setActiveIndex((prevIndex) => (prevIndex === index ? null : index));
   };
