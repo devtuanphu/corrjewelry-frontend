@@ -58,9 +58,15 @@ body {
   }
 }
 @media all and (max-width: 767px) {
+  /* Đảm bảo chỉ áp dụng cho Safari */
   @supports (-webkit-touch-callout: none) {
     .drawer-content {
-      padding-bottom: 50px; /* Điều chỉnh padding-bottom cho Safari */
+      padding-bottom: 50px; /* Giá trị mặc định */
+      transition: padding-bottom 0.3s ease; /* Thêm hiệu ứng khi thay đổi padding */
+    }
+
+    .drawer-content.safari-scrolled {
+      padding-bottom: 0; /* Giảm padding khi thanh công cụ bị ẩn */
     }
   }
 }

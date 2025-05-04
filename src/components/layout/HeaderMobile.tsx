@@ -22,6 +22,36 @@ const HeaderMobile = () => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [headSale, setHeadSale] = useState<any>(null);
   const [headerData, setHeaderData] = useState<any>(null);
+  const [isSafari, setIsSafari] = useState(false);
+  useEffect(() => {
+    // Kiểm tra trình duyệt Safari
+    const isSafariBrowser =
+      /Safari/.test(navigator.userAgent) &&
+      /Apple Computer/.test(navigator.vendor);
+    setIsSafari(isSafariBrowser);
+
+    if (isSafariBrowser) {
+      const handleScroll = () => {
+        const drawerContent = document.querySelector(".drawer-content");
+
+        if (drawerContent) {
+          // Kiểm tra scroll để thay đổi padding-bottom
+          if (window.scrollY > 50) {
+            drawerContent.classList.add("safari-scrolled");
+          } else {
+            drawerContent.classList.remove("safari-scrolled");
+          }
+        }
+      };
+
+      window.addEventListener("scroll", handleScroll);
+
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+      };
+    }
+  }, [isSafari]);
+
   const BASE_URL = process.env.NEXT_PUBLIC_URL_BE;
   const fetchHeaderData = async () => {
     try {
