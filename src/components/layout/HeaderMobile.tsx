@@ -129,6 +129,7 @@ const HeaderMobile = () => {
       </div>
 
       <Drawer
+        className="drawer"
         placement="left"
         open={isMenuOpen}
         onClose={toggleMenu}
@@ -143,164 +144,168 @@ const HeaderMobile = () => {
         }}
         destroyOnClose
       >
-        <div className="flex flex-col h-full justify-between">
-          <div className={`${quicksand.className} flex-grow`}>
-            <div className="flex gap-4 items-center justify-between">
-              <div className="w-[85%] relative">
-                <input
-                  type="text"
-                  placeholder="Tìm kiếm"
-                  className="outline-none rounded-full h-[44px] w-full pl-10 text-[14px] placeholder:text-[#383838] placeholder:text-[14px] bg-[#EBEBEB]"
-                />
-                <Image
-                  src={SearchIcon}
-                  alt="Icon"
-                  className="absolute left-3 top-[50%] transform -translate-y-[50%] w-[20px] h-[20px]"
-                />
+        <div className="drawer-content">
+          <div className="flex flex-col h-full justify-between">
+            <div className={`${quicksand.className} flex-grow`}>
+              <div className="flex gap-4 items-center justify-between">
+                <div className="w-[85%] relative">
+                  <input
+                    type="text"
+                    placeholder="Tìm kiếm"
+                    className="outline-none rounded-full h-[44px] w-full pl-10 text-[14px] placeholder:text-[#383838] placeholder:text-[14px] bg-[#EBEBEB]"
+                  />
+                  <Image
+                    src={SearchIcon}
+                    alt="Icon"
+                    className="absolute left-3 top-[50%] transform -translate-y-[50%] w-[20px] h-[20px]"
+                  />
+                </div>
+                <button onClick={() => toggleMenu()}>
+                  <Image
+                    src={IconClose}
+                    alt="icon"
+                    className="w-[24px] h-[24px]"
+                  />
+                </button>
               </div>
-              <button onClick={() => toggleMenu()}>
-                <Image
-                  src={IconClose}
-                  alt="icon"
-                  className="w-[24px] h-[24px]"
-                />
-              </button>
-            </div>
-            <div className="flex-grow pt-[50px]">
-              <div className="space-y-4">
-                {categories.map((category, index) => (
-                  <div key={index}>
-                    <div
-                      onClick={() =>
-                        category.subcategories ? handleToggle(index) : null
-                      }
-                      className="flex justify-between items-center cursor-pointer p-2"
-                    >
-                      {category.special ? (
-                        <>
-                          <Link
-                            className="text-[#383838]"
-                            onClick={() => {
-                              toggleMenu();
-                            }}
-                            href={`/${category.slug}`}
-                          >
-                            <span
-                              className={`text-[15px] font-bold uppercase text-[#EB0000]`}
-                            >
-                              {category.name}
-                            </span>
-                          </Link>
-                        </>
-                      ) : (
-                        <>
-                          <span
-                            className={`text-[15px] font-bold uppercase !text-[#000] ${
-                              category.special ? "text-[#EB0000]" : ""
-                            }`}
-                          >
-                            <Link
-                              onClick={() => {
-                                toggleMenu();
-                              }}
-                              className="text-[#000]"
-                              href={`${category.slug}`}
-                            >
-                              {category.name}
-                            </Link>
-                          </span>
-                        </>
-                      )}
-
-                      {category.subcategories && (
-                        <Image
-                          src={activeIndex === index ? IconUp : IconDown}
-                          alt="toggle icon"
-                          className="w-6 h-6"
-                        />
-                      )}
-                    </div>
-
-                    {category.subcategories && (
-                      <motion.div
-                        initial={{ height: 0 }}
-                        animate={{ height: activeIndex === index ? "auto" : 0 }}
-                        transition={{ duration: 0.3 }}
-                        className="overflow-hidden"
+              <div className="flex-grow pt-[50px]">
+                <div className="space-y-4">
+                  {categories.map((category, index) => (
+                    <div key={index}>
+                      <div
+                        onClick={() =>
+                          category.subcategories ? handleToggle(index) : null
+                        }
+                        className="flex justify-between items-center cursor-pointer p-2"
                       >
-                        <div className="pl-6 pt-4 space-y-2">
-                          <div className="text-sm">
+                        {category.special ? (
+                          <>
                             <Link
                               className="text-[#383838]"
                               onClick={() => {
                                 toggleMenu();
                               }}
-                              href={`/${category.slug}`} // Chỉ trỏ đến danh mục tổng hợp
+                              href={`/${category.slug}`}
                             >
-                              Tất cả
+                              <span
+                                className={`text-[15px] font-bold uppercase text-[#EB0000]`}
+                              >
+                                {category.name}
+                              </span>
                             </Link>
+                          </>
+                        ) : (
+                          <>
+                            <span
+                              className={`text-[15px] font-bold uppercase !text-[#000] ${
+                                category.special ? "text-[#EB0000]" : ""
+                              }`}
+                            >
+                              <Link
+                                onClick={() => {
+                                  toggleMenu();
+                                }}
+                                className="text-[#000]"
+                                href={`${category.slug}`}
+                              >
+                                {category.name}
+                              </Link>
+                            </span>
+                          </>
+                        )}
+
+                        {category.subcategories && (
+                          <Image
+                            src={activeIndex === index ? IconUp : IconDown}
+                            alt="toggle icon"
+                            className="w-6 h-6"
+                          />
+                        )}
+                      </div>
+
+                      {category.subcategories && (
+                        <motion.div
+                          initial={{ height: 0 }}
+                          animate={{
+                            height: activeIndex === index ? "auto" : 0,
+                          }}
+                          transition={{ duration: 0.3 }}
+                          className="overflow-hidden"
+                        >
+                          <div className="pl-6 pt-4 space-y-2">
+                            <div className="text-sm">
+                              <Link
+                                className="text-[#383838]"
+                                onClick={() => {
+                                  toggleMenu();
+                                }}
+                                href={`/${category.slug}`} // Chỉ trỏ đến danh mục tổng hợp
+                              >
+                                Tất cả
+                              </Link>
+                            </div>
+                            {category.subcategories.map(
+                              (subcategory: any, subIndex: any) => (
+                                <div key={subIndex} className="text-sm">
+                                  <Link
+                                    className="text-[#383838]"
+                                    onClick={() => {
+                                      toggleMenu();
+                                    }}
+                                    href={`/${category.slug}/${subcategory?.slug}`}
+                                  >
+                                    {" "}
+                                    {subcategory?.title}
+                                  </Link>
+                                </div>
+                              )
+                            )}
                           </div>
-                          {category.subcategories.map(
-                            (subcategory: any, subIndex: any) => (
-                              <div key={subIndex} className="text-sm">
-                                <Link
-                                  className="text-[#383838]"
-                                  onClick={() => {
-                                    toggleMenu();
-                                  }}
-                                  href={`/${category.slug}/${subcategory?.slug}`}
-                                >
-                                  {" "}
-                                  {subcategory?.title}
-                                </Link>
-                              </div>
-                            )
-                          )}
-                        </div>
-                      </motion.div>
-                    )}
-                  </div>
-                ))}
+                        </motion.div>
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-          <div className="">
-            <div className="flex justify-between items-center">
-              <div>
-                <Image
-                  src={AvatarImage}
-                  alt="người dùng"
-                  className="w-[32px] h-[32px] rounded-full"
-                />
+            <div className="">
+              <div className="flex justify-between items-center">
+                <div>
+                  <Image
+                    src={AvatarImage}
+                    alt="người dùng"
+                    className="w-[32px] h-[32px] rounded-full"
+                  />
+                </div>
+                <Link
+                  onClick={() => toggleMenu()}
+                  className="text-[#595959] link-header text-[16px] font-medium"
+                  href="/gioi-thieu"
+                >
+                  Giới Thiệu
+                </Link>
+                <Link
+                  onClick={() => toggleMenu()}
+                  className="text-[#595959] link-header text-[16px] font-medium"
+                  href="/bang-size"
+                >
+                  Bảng size
+                </Link>
+                <Link
+                  onClick={() => toggleMenu()}
+                  className="text-[#595959] link-header text-[16px] font-medium"
+                  href="/blog"
+                >
+                  Blog
+                </Link>
+                <Link
+                  onClick={() => toggleMenu()}
+                  className="text-[#595959] link-header text-[16px] font-medium"
+                  href="/lien-he"
+                >
+                  Liên Hệ
+                </Link>
               </div>
-              <Link
-                onClick={() => toggleMenu()}
-                className="text-[#595959] link-header text-[16px] font-medium"
-                href="/gioi-thieu"
-              >
-                Giới Thiệu
-              </Link>
-              <Link
-                onClick={() => toggleMenu()}
-                className="text-[#595959] link-header text-[16px] font-medium"
-                href="/bang-size"
-              >
-                Bảng size
-              </Link>
-              <Link
-                onClick={() => toggleMenu()}
-                className="text-[#595959] link-header text-[16px] font-medium"
-                href="/blog"
-              >
-                Blog
-              </Link>
-              <Link
-                onClick={() => toggleMenu()}
-                className="text-[#595959] link-header text-[16px] font-medium"
-                href="/lien-he"
-              >
-                Liên Hệ
-              </Link>
             </div>
           </div>
         </div>
