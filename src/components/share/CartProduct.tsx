@@ -45,13 +45,12 @@ const CartProduct: React.FC<CartProductProps> = ({ data }) => {
         <div className="flex flex-col gap-2">
           <div className="relative">
             {imageProduct && (
-              <Image
+              <img
                 src={baseUrl + imageProduct}
                 alt="product"
                 className="w-full"
                 height={100}
                 width={400}
-                priority
               />
             )}
             {data?.isPrenium && (
