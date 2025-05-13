@@ -51,6 +51,7 @@ const CartProduct: React.FC<CartProductProps> = ({ data }) => {
                 className="w-full"
                 height={100}
                 width={400}
+                priority
               />
             )}
             {data?.isPrenium && (
@@ -104,7 +105,13 @@ const CartProduct: React.FC<CartProductProps> = ({ data }) => {
                 <span className="text-[12px] font-medium text-[#595959]">
                   {data?.startAVG}
                 </span>
-                <Image src={Start} height={16} width={16} alt="icon star" />
+                <Image
+                  src={Start}
+                  height={16}
+                  width={16}
+                  alt="icon star"
+                  priority
+                />
               </div>
             </div>
           </div>
