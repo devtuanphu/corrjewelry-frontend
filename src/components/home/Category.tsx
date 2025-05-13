@@ -63,6 +63,7 @@ const Category: React.FC<PropsCategory> = ({ dataNam, dataNu, dataUnisex }) => {
                         width={2000}
                         height={2000}
                         className="w-full h-auto transform transition-transform duration-300 group-hover:scale-105"
+                        priority
                       />
                     </div>
                     <h5

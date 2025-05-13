@@ -149,6 +149,7 @@ const CardSale: React.FC<CardSaleProps> = ({ data }) => {
                     alt="product"
                     fill
                     className="object-cover"
+                    priority
                   />
                   {data?.attributes?.isPrenium && (
                     <div className="absolute top-[72px] left-0 ">

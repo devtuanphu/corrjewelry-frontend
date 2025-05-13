@@ -97,6 +97,7 @@ const CarouselProductDetail: React.FC<CarouselProductDetailProps> = ({
                 alt={`Product ${selectedImage + 1}`}
                 fill
                 className="object-cover rounded-xl"
+                priority
               />
             </motion.div>
           </AnimatePresence>

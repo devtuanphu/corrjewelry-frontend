@@ -52,6 +52,7 @@ const BestSeller: React.FC<PropsBestSeller> = ({ img_bestseller, data }) => {
             width={2000}
             height={2000}
             className="w-full h-full object-cover rounded"
+            priority
           />
         </div>
 

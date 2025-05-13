@@ -38,6 +38,7 @@ const BannerShare: React.FC<BannerShareProps> = ({
         height={500}
         alt="Tất cả sản phẩm"
         className="h-[500px] w-full"
+        priority
       />
 
       {/* Text Content */}

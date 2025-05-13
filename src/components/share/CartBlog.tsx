@@ -32,6 +32,7 @@ const CartBlog: React.FC<CartBlogProps> = ({ data }) => {
             className="w-full"
             width={600}
             height={600}
+            priority
           />
           <div
             className={`flex gap-4 ${robotosand.className} text-[16px] font-medium text-[#4C4C4C]`}

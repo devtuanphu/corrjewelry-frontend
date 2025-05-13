@@ -20,6 +20,7 @@ const CardCollection: React.FC<CardCollectionProps> = ({ data }) => {
           className="w-full h-[300px]"
           width={2000}
           height={300}
+          priority
         />
         <div className="bg-[#f3f3f3] absolute left-0 bottom-0 px-[24px] py-[12px] leading-7">
           <h5

@@ -137,6 +137,7 @@ const page = async () => {
                 className="w-full"
                 width={1980}
                 height={200}
+                priority
               />
             </div>
 
