@@ -92,12 +92,10 @@ const CarouselProductDetail: React.FC<CarouselProductDetailProps> = ({
               transition={{ duration: 0.4, ease: "easeInOut" }}
               className="absolute top-0 left-0 w-full h-full"
             >
-              <Image
+              <img
                 src={baseUrl + images[selectedImage]?.attributes?.url} // Đảm bảo lấy đúng URL từ dữ liệu API
                 alt={`Product ${selectedImage + 1}`}
-                fill
                 className="object-cover rounded-xl"
-                priority
               />
             </motion.div>
           </AnimatePresence>
