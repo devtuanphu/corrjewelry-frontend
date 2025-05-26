@@ -9,6 +9,10 @@ import { Button, Modal, Table, Tag } from "antd";
 import { ColumnsType } from "antd/es/table";
 import { ENDPOINT } from "@/enums/endpoint.enum";
 import IconLeft from "../../../public/icon/chevron-right.svg";
+import IconUser from "../../../public/icon/user.svg";
+import IconCheck from "../../../public/icon/check.svg";
+import TestImg from "../../../public/images/testimg.jpg";
+
 const Page = () => {
   const [activeTab, setActiveTab] = useState<string | null>("");
   const [isMobile, setIsMobile] = useState(false);
@@ -16,9 +20,22 @@ const Page = () => {
   const [isLogoutModalVisible, setIsLogoutModalVisible] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState<any>(null);
   const [userData, setUserData] = useState<any>(null);
+  const [userId, setUserId] = useState("");
   const [picture, setPicture] = useState();
   const [loading, setLoading] = useState(false);
+  const [order, setOrder] = useState<any>();
+  const [expandedOrderId, setExpandedOrderId] = useState<string | null>(null);
+
+  // Hàm để toggle mở rộng hoặc đóng đơn hàng
+  const toggleAccordion = (id: string) => {
+    if (expandedOrderId === id) {
+      setExpandedOrderId(null); // Đóng nếu đã mở
+    } else {
+      setExpandedOrderId(id); // Mở nếu chưa mở
+    }
+  };
   const BASE_URL = process.env.NEXT_PUBLIC_URL_BE;
+  const TOKEN_DEV = process.env.NEXT_PUBLIC_TOKEN_DEV;
   useEffect(() => {
     const fetchHeaderData = async () => {
       setLoading(true); // Bắt đầu quá trình tải
@@ -38,6 +55,7 @@ const Page = () => {
 
           if (response.ok && data.id) {
             setUserData(data);
+            setUserId(data?.id);
             setPicture(data.picture.url); // Không cần cho BASE_URL vào dependency
           } else {
             console.error("Không có dữ liệu người dùng.");
@@ -53,7 +71,35 @@ const Page = () => {
       }
     };
     fetchHeaderData();
-  }, []); // Không cần BASE_URL ở đây, vì nó là một giá trị cố định
+  }, []); // Chạy 1 lần khi component mount
+
+  useEffect(() => {
+    // Chỉ fetch khi userId đã có giá trị
+    if (!userId) return;
+
+    const fetchOrderByUser = async () => {
+      setLoading(true); // Bắt đầu quá trình tải
+      console.log(userId); // Kiểm tra xem userId có đúng không
+      try {
+        const response = await fetch(`${ENDPOINT.GET_DON_HANG}/${userId}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${TOKEN_DEV}`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        const data = await response.json();
+        setOrder(data);
+      } catch (error) {
+        console.error("Lỗi khi lấy dữ liệu đơn hàng:", error);
+      } finally {
+        setLoading(false); // Kết thúc quá trình tải
+      }
+    };
+
+    fetchOrderByUser();
+  }, [userId]); // Phụ thuộc vào userId, chỉ fetch khi userId có giá trị
 
   const showModal = (order: any) => {
     setSelectedOrder(order);
@@ -84,15 +130,14 @@ const Page = () => {
   const columns: ColumnsType<any> = [
     {
       title: "Mã đơn hàng",
-      dataIndex: "orderId",
-      key: "orderId",
-      render: (text) => <span style={{ fontWeight: "bold" }}>{text}</span>, // In đậm
+      dataIndex: "ID_order",
+      key: "ID_order",
+      render: (text) => <span style={{ fontWeight: "bold" }}>{text}</span>,
     },
     {
       title: "Ngày đặt",
-      dataIndex: "orderDate",
-      key: "orderDate",
-      // Không cần in đậm cho cột này
+      dataIndex: "date_order",
+      key: "date_order",
       render: (text) => <span>{text}</span>,
     },
     {
@@ -113,43 +158,13 @@ const Page = () => {
     },
     {
       title: "Thành tiền",
-      dataIndex: "amount",
-      key: "amount",
+      dataIndex: "finalAmount",
+      key: "finalAmount",
       render: (amount: number) => (
-        <span
-          style={{ fontWeight: "bold" }}
-        >{`${amount.toLocaleString()} đ`}</span>
-      ), // In đậm
-    },
-  ];
-  const data = [
-    {
-      key: "1",
-      orderId: "#3456_768",
-      orderDate: "11/02/2025",
-      status: "Chờ xác nhận",
-      amount: 1100000,
-    },
-    {
-      key: "2",
-      orderId: "#3456_980",
-      orderDate: "10/02/2025",
-      status: "Đang đóng gói",
-      amount: 1100000,
-    },
-    {
-      key: "3",
-      orderId: "#3456_120",
-      orderDate: "19/01/2025",
-      status: "Đã giao",
-      amount: 850000,
-    },
-    {
-      key: "4",
-      orderId: "#3456_030",
-      orderDate: "20/12/2024",
-      status: "Đã giao",
-      amount: 900000,
+        <span style={{ fontWeight: "bold" }}>
+          {`${amount.toLocaleString()} đ`}
+        </span>
+      ),
     },
   ];
 
@@ -250,7 +265,7 @@ const Page = () => {
         <h5 className="text-[20px] pb-[40px] font-bold">Đơn hàng của bạn</h5>
         <Table
           columns={columns}
-          dataSource={data}
+          dataSource={order?.data} // Đảm bảo sử dụng order.data thay vì chỉ order
           pagination={false}
           onRow={(record) => ({
             onClick: () => showModal(record),
@@ -258,36 +273,156 @@ const Page = () => {
           })}
         />
         <Modal
-          title="Thông tin đơn hàng"
           visible={isModalVisible}
           onOk={handleOk}
           onCancel={handleCancel}
-          footer={[
-            <Button key="back" onClick={handleCancel}>
-              Hủy
-            </Button>,
-            <Button key="submit" type="primary" onClick={handleOk}>
-              OK
-            </Button>,
-          ]}
+          footer={null}
+          closable={false}
+          width="80%"
         >
-          {selectedOrder && (
-            <div>
-              <p>
-                <strong>Mã đơn hàng:</strong> {selectedOrder.orderId}
-              </p>
-              <p>
-                <strong>Ngày đặt:</strong> {selectedOrder.orderDate}
-              </p>
-              <p>
-                <strong>Trạng thái:</strong> {selectedOrder.status}
-              </p>
-              <p>
-                <strong>Thành tiền:</strong>{" "}
-                {`${selectedOrder.amount.toLocaleString()} đ`}
-              </p>
+          <div className="grid grid-cols-12 gap-[24px]">
+            <div className="col-span-8">
+              <div className="flex items-center gap-2">
+                <h5 className="text-[#1D242D]">Đơn hàng</h5>
+                <span className="font-bold text-[18px]">#3456_980</span>
+              </div>
+
+              <div className="pt-[32px]">
+                <div className="flex justify-between">
+                  <div>
+                    <div className="w-[40px] h-[40px] bg-[#C0E4CA] rounded-full flex items-center justify-center relative">
+                      <Image
+                        src={IconCheck}
+                        alt="Icon"
+                        width={16}
+                        height={16}
+                      />
+                    </div>
+                    <h5 className="py-4 text-[#2A2A2A] font-bold">
+                      CHỜ XÁC NHẬN
+                    </h5>
+                  </div>
+                  <div>
+                    <div className="w-[40px] h-[40px] bg-[#C0E4CA] rounded-full flex items-center justify-center relative">
+                      <Image
+                        src={IconCheck}
+                        alt="Icon"
+                        width={16}
+                        height={16}
+                      />
+                    </div>
+                    <h5 className="py-4 text-[#2A2A2A] font-bold">ĐÓNG GÓI</h5>
+                  </div>
+                  <div>
+                    <div className="w-[40px] h-[40px] bg-[#C0E4CA] rounded-full flex items-center justify-center relative">
+                      <Image
+                        src={IconCheck}
+                        alt="Icon"
+                        width={16}
+                        height={16}
+                      />
+                    </div>
+                    <h5 className="py-4 text-[#2A2A2A] font-bold">
+                      VẬN CHUYỂN
+                    </h5>
+                  </div>
+                  <div>
+                    <div className="w-[40px] h-[40px] bg-[#C0E4CA] rounded-full flex items-center justify-center relative">
+                      <Image
+                        src={IconCheck}
+                        alt="Icon"
+                        width={16}
+                        height={16}
+                      />
+                    </div>
+                    <h5 className="py-4 text-[#2A2A2A] font-bold">GIAO HÀNG</h5>
+                  </div>
+                </div>
+                <div className="px-[16px] pt-[16px] bg-[#F8F8F8]">
+                  <h5 className="text-[#737373] text-[14px]">
+                    Thông tin nhận hàng
+                  </h5>
+                  <div className="py-[12px] px-[16px]">
+                    <div className="flex gap-[16px] items-center">
+                      <h5 className="text-[#2A2A2A] font-bold">
+                        Le Huong Thao
+                      </h5>
+                      <span className="text-[#219653] font-bold">
+                        +84 933724566
+                      </span>
+                      <span className="text-[#1D242D]">Anguyen@gmail.com</span>
+                    </div>
+                    <h5 className="py-[16px] text-[#1D242D] font-bold">
+                      Địa chỉ: Lô B chung cư XYZ, Phường 10, Quận 5, Hồ Chí
+                      Minh.
+                    </h5>
+                  </div>
+                </div>
+
+                <div className="pt-[16px]">
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="radio"
+                      id="payment-method-cod"
+                      name="payment-method"
+                      value="Thanh toán khi nhận hàng"
+                      className="accent-[#219653]"
+                    />
+                    <label
+                      htmlFor="payment-method-cod"
+                      className="text-[#1D242D] font-bold text-[16px]"
+                    >
+                      Thanh toán khi nhận hàng
+                    </label>
+                  </div>
+                  <div className="flex items-center gap-2 mt-4">
+                    <input
+                      type="radio"
+                      id="payment-method-online"
+                      name="payment-method"
+                      value="Thanh toán online"
+                      className="accent-[#219653]"
+                    />
+                    <label
+                      htmlFor="payment-method-online"
+                      className="text-[#1D242D] font-bold text-[16px]"
+                    >
+                      Thanh toán online
+                    </label>
+                  </div>
+                </div>
+              </div>
             </div>
-          )}
+            <div className="col-span-4">
+              <div className="pt-[32px]">
+                <div className="flex justify-between py-[8px]">
+                  <h5 className="text-[#2A2A2A] font-bold">Tạm tính</h5>
+                  <span className="text-[#2A2A2A] font-bold">1.799.000 đ</span>
+                </div>
+                <div className="flex justify-between py-[8px]">
+                  <h5 className="text-[#2A2A2A] font-bold">Giảm giá (-20%)</h5>
+                  <span className="text-[#D40000] font-bold">-359.000 đ</span>
+                </div>
+                <div className="flex justify-between py-[8px]">
+                  <h5 className="text-[#2A2A2A] font-bold">Voucher</h5>
+                  <span className="text-[#D40000] font-bold">-100.000 đ</span>
+                </div>
+                <div className="flex justify-between py-[8px]">
+                  <h5 className="text-[#2A2A2A] font-bold">Vận chuyển</h5>
+                  <span className="text-[#219653] font-bold">Free</span>
+                </div>
+                <hr className="my-[16px]" />
+                <div className="flex justify-between py-[8px]">
+                  <h5 className="text-[#1D242D] font-bold text-[18px]">
+                    TỔNG CỘNG
+                  </h5>
+                  <span className="text-[#1D242D] font-bold text-[18px]">
+                    1.340.000 đ
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
         </Modal>
       </>
     );
@@ -346,6 +481,109 @@ const Page = () => {
           </ul>
         </div>
       </div>
+    );
+  };
+
+  const TabOrderMobile = () => {
+    // Giả sử order là một mảng chứa các đơn hàng
+    const orders = order?.data || [];
+    const BASE_URL = process.env.NEXT_PUBLIC_URL_BE;
+
+    return (
+      <>
+        <div className="w-full bg-white p-4">
+          {orders.map((orderItem: any, index: any) => (
+            <div
+              key={index}
+              className="mb-6"
+              onClick={() => toggleAccordion(orderItem?.ID_order)}
+            >
+              <div className="flex items-center justify-between pb-4">
+                <div className="text-xl font-semibold text-gray-900">
+                  <span>ID: </span>
+                  <span className="text-blue-500">{orderItem?.ID_order}</span>
+                </div>
+                <span className="text-orange-500 font-semibold">
+                  {orderItem?.status}
+                </span>
+              </div>
+
+              <div className="flex flex-col gap-4">
+                {/* Hiển thị sản phẩm cho mỗi đơn hàng */}
+                {orderItem?.items?.map((item: any, itemIndex: any) => (
+                  <div key={itemIndex} className="flex items-center gap-4">
+                    <div className="w-[80px] h-[80px] bg-gray-200 rounded-md">
+                      <Image
+                        src={
+                          BASE_URL + item?.san_pham?.images?.[0]?.url || TestImg
+                        } // Lấy ảnh đầu tiên của sản phẩm và ghép BASE_URL vào đầu
+                        alt={item?.san_pham?.title || "Sản phẩm"}
+                        className="object-cover w-full h-full rounded-md"
+                        width={80}
+                        height={80}
+                      />
+                    </div>
+                    <div className="flex flex-col">
+                      <h5 className="text-lg font-semibold text-gray-800">
+                        {item?.san_pham?.title || "Sản phẩm"}
+                      </h5>
+                      <p className="text-gray-500">{item?.size || "M"}</p>
+                      <span className="text-gray-800">
+                        {item?.amount} x{" "}
+                        {item?.price?.toLocaleString() || "0 đ"}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+
+                {/* Ngày đặt */}
+                <div className="flex justify-between items-center pt-4">
+                  <div className="text-gray-500">Ngày đặt</div>
+                  <div className="font-semibold text-gray-900">
+                    {orderItem?.date_order || "Ngày không xác định"}
+                  </div>
+                </div>
+
+                {/* Tổng tiền */}
+                <div className="flex justify-between pt-4 font-semibold text-gray-900">
+                  <div className="text-lg">Tổng cộng</div>
+                  <div className="text-lg">
+                    {orderItem?.finalAmount?.toLocaleString() || "0 đ"}
+                  </div>
+                </div>
+              </div>
+
+              {expandedOrderId === orderItem?.ID_order && (
+                <div>
+                  {/* <div className="flex justify-between">
+                    <h2 className="text-[#383838]">Tạm tính</h2>
+                    <h5>
+                      {" "}
+                      {orderItem?.price_not_reduced?.toLocaleString() ||
+                        "0 đ"}{" "}
+                    </h5>
+                  </div> */}
+                  <h5 className="text-[#595959] text-[14px]">
+                    Thông tin nhận hàng
+                  </h5>
+                  <div className="pt-[8px] flex items-center gap-4">
+                    <h5 className="text-[#2A2A2A] font-bold">
+                      {orderItem?.firstName + orderItem?.lastName}
+                    </h5>
+                    <span className="text-[#219653] font-bold">
+                      {orderItem?.phone}
+                    </span>
+                  </div>
+                  <h5 className="py-2">{orderItem?.email}</h5>
+                  <h5 className="font-bold text-[#1D242D]">
+                    Địa chỉ: {orderItem?.address}
+                  </h5>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </>
     );
   };
 
@@ -473,12 +711,17 @@ const Page = () => {
                     onClick={handleGoBack} // Quay lại phần danh sách tab
                   >
                     <div className="flex items-center">
-                      {" "}
                       <Image src={IconLeft} width={20} alt="Icon" height={20} />
                       <span>Đơn hàng của bạn</span>
                     </div>
                   </button>
-                  <TabOrder />
+                  <div className="hidden md:block">
+                    <TabOrder />
+                  </div>
+
+                  <div className="md:hidden">
+                    <TabOrderMobile />
+                  </div>
                 </div>
               )}
 

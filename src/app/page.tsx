@@ -10,9 +10,15 @@ import BlogSection from "@/components/home/BlogSection";
 import WhyChooseUs from "@/components/home/WhyChooseUs";
 import { apiService } from "@/services/api.service";
 import { ENDPOINT } from "../enums/endpoint.enum";
+import SlideHome from "@/components/home/SlideHome";
 
 const searchData = {
-  populate: ["seo.thumbnail", "banner", "img_bestseller"].toString(),
+  populate: [
+    "seo.thumbnail",
+    "banner",
+    "img_bestseller",
+    "slide.image",
+  ].toString(),
 };
 const searchDataWhy = {
   populate: ["item.icon"].toString(),
@@ -142,10 +148,13 @@ const page = async () => {
   );
 
   const dataBlog = blog?.data;
+  const bannerSlide = dataHome?.data?.attributes?.slide;
 
   return (
     <div className="flex flex-col gap-[70px] pb-[50px]">
-      <Banner banner={banner} />
+      {/* <Banner banner={banner} /> */}
+
+      <SlideHome slides={bannerSlide} />
       <NewArrival data={dataProductArrival} />
       <Category dataNam={dataNam} dataNu={dataNu} dataUnisex={dataUnisex} />
       <BestSeller

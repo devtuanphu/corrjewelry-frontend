@@ -49,4 +49,5 @@ export const ENDPOINT = {
   GET_LIEN_HE: `${BASE_URL}/api/lien-he`,
   POST_LIEN_HE: `${BASE_URL}/api/thong-tin-lien-hes`,
   GET_BANG_SIZE: `${BASE_URL}/api/bang-size`,
+  GET_DON_HANG: `${BASE_URL}/api/don-hang/user`,
 };

@@ -176,8 +176,6 @@ const HeaderMobile = () => {
     },
   ];
 
-  console.log(userData);
-
   return (
     <>
       <div className="bg-[#EBEBEB] py-[12px] md:hidden">
