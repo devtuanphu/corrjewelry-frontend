@@ -7,6 +7,7 @@ interface ItemOrderData {
   size: string;
   price: string;
   idCart: string;
+  noted?: string;
 }
 
 interface OrderData {
@@ -25,13 +26,14 @@ export const addToCart = async (
   amount: number,
   userId: string,
   size: string,
-  price: number
+  price: number,
+  noted?: string
 ) => {
   try {
     // Gửi yêu cầu thêm sản phẩm vào giỏ hàng
     const response = await apiService.post(
       `${ENDPOINT.ADD_TO_CART}/${userId}/cart/products`, // Giả sử đây là endpoint thêm vào giỏ hàng
-      { productId, amount, size, price }
+      { productId, amount, size, price, noted }
     );
 
     // Nếu thành công, trả về thông báo hoặc dữ liệu cần thiết

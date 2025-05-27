@@ -16,6 +16,7 @@ interface ItemOrderData {
   size: string;
   price: string;
   idCart: string;
+  noted?: string;
 }
 
 interface OrderData {
@@ -35,6 +36,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ data }) => {
   const [formattedSalePrice, setFormattedSalePrice] = useState<string>("");
   const [formattedOriginalPrice, setFormattedOriginalPrice] =
     useState<string>("");
+  const [noted, setNoted] = useState<string>("");
 
   const [items, setItems] = useState<any>([]);
   const [orderData, setOrderData] = useState<any>([]);
@@ -98,7 +100,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ data }) => {
     }
 
     // Truyền size và price vào hàm addToCart
-    addToCart(data[0]?.id, quantity, userId, size, salePrice) // Sửa lại để truyền price (formattedSalePrice) vào
+    addToCart(data[0]?.id, quantity, userId, size, salePrice, noted) // Sửa lại để truyền price (formattedSalePrice) vào
       .then(() => {
         notification.success({
           message: "Thêm vào giỏ hàng thành công",
@@ -137,7 +139,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ data }) => {
       return;
     }
 
-    addToCart(data[0]?.id, quantity, userId, size, salePrice) // Truyền size và price vào
+    addToCart(data[0]?.id, quantity, userId, size, salePrice, noted) // Truyền size và price vào
       .then((response: any) => {
         if (response?.cart) {
           // Cập nhật items với cart mới nhất
@@ -147,6 +149,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ data }) => {
             size: size,
             price: salePrice.toString(), // Chuyển giá thành kiểu string
             idCart: response?.cart?.idCart,
+            noted: noted,
           };
 
           // Cập nhật orderData với các giá trị đã chọn
@@ -218,6 +221,15 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ data }) => {
             Phong cách:{" "}
             <span className="text-[#1D242D]">{data[0]?.attributes?.style}</span>
           </h5>
+        </div>
+
+        <div>
+          <textarea
+            placeholder="Khắc tên - ngày sinh - icon... (Vui lòng ghi chú rõ nội dung)"
+            className="w-full h-[80px] p-2 border border-gray-300 rounded resize-none text-sm focus:outline-none"
+            value={noted}
+            onChange={(e) => setNoted(e.target.value)}
+          />
         </div>
         <div className="">
           <Radio.Group

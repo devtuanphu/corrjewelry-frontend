@@ -179,6 +179,7 @@ const Page = () => {
       size: item.size,
       price: item.price,
       idCart: item.idCart,
+      noted: item.noted,
     }));
 
     const orderData = {

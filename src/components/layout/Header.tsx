@@ -386,6 +386,7 @@ const Header = () => {
       size: item.size,
       price: item.price,
       idCart: item.idCart,
+      noted: item.noted,
     }));
 
     // Tạo dữ liệu đơn hàng
