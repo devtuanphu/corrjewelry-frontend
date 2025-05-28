@@ -36,9 +36,9 @@ async function fetchWithToken(endpoint: string) {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: { slug: string; category: string };
 }) {
-  const { slug } = params;
+  const { slug, category } = params;
 
   const dataHome = await fetchWithToken(
     `${ENDPOINT.GET_CHI_TIET_DANH_MUC_SLUG}?slug=${slug}`
@@ -65,7 +65,7 @@ export async function generateMetadata({
         seo.ogDescription ||
         seo.description ||
         "Công ty TNHH Kỹ thuật NTS cung cấp các giải pháp kỹ thuật công trình hàng đầu.",
-      url: `${baseUrl}/home`,
+      url: `https://corrjewelry.vn/${category}/${slug}`,
       images: [
         {
           url: seo.thumbnail?.url

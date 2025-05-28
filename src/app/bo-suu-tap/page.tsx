@@ -68,7 +68,7 @@ export async function generateMetadata() {
         seo.ogDescription ||
         seo.description ||
         "Công ty TNHH Kỹ thuật NTS cung cấp các giải pháp kỹ thuật công trình hàng đầu.",
-      url: `${baseUrl}/home`,
+      url: `https://corrjewelry.vn/bo-suu-tap`,
       images: [
         {
           url: seo.thumbnail?.data?.attributes?.url

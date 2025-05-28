@@ -108,7 +108,7 @@ const Page = () => {
                   Tên <span className="text-[#E03529]">*</span>
                 </p>
                 <Input
-                  name="name"
+                  name="firstName"
                   value={formData.firstName}
                   onChange={handleChange}
                   placeholder="Nhập tên của bạn"
@@ -120,7 +120,7 @@ const Page = () => {
                   Họ <span className="text-[#E03529]">*</span>
                 </p>
                 <Input
-                  name="surname"
+                  name="lastName"
                   value={formData.lastName}
                   onChange={handleChange}
                   placeholder="Nhập họ của bạn"
