@@ -32,6 +32,9 @@ interface OrderData {
 const CardSale: React.FC<CardSaleProps> = ({ data }) => {
   const baseUrl = process.env.NEXT_PUBLIC_URL_BE || "";
 
+  const image = data?.attributes?.images?.data[0]?.attributes?.url;
+  console.log(image);
+
   const [size, setSize] = useState<string | undefined>(undefined);
   const [formattedSalePrice, setFormattedSalePrice] = useState<string>("");
   const [formattedOriginalPrice, setFormattedOriginalPrice] =
@@ -145,7 +148,7 @@ const CardSale: React.FC<CardSaleProps> = ({ data }) => {
               <div className="h-full">
                 <div className="relative aspect-[3/3] w-full">
                   <Image
-                    src={ProductDemo}
+                    src={baseUrl + image}
                     alt="product"
                     fill
                     className="object-cover"
