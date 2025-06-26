@@ -300,7 +300,7 @@ const TabDetailProduct: React.FC<TabDetailProductProps> = ({ data }) => {
             }`}
             onClick={() => handleToggle("details")}
           >
-            Chi tiết sản phẩm
+            Đánh giá
             <Image
               src={activeTabMobile === "details" ? IconDown : IconRight}
               alt="Toggle"
@@ -317,7 +317,7 @@ const TabDetailProduct: React.FC<TabDetailProductProps> = ({ data }) => {
             transition={{ duration: 0.3 }} // Thời gian chuyển động
             className="overflow-hidden"
           >
-            {activeTabMobile === "details" && <ProductDetails data={data} />}
+            {activeTabMobile === "details" && <FeedBack />}
           </motion.div>
         </div>
       </div>
