@@ -136,6 +136,7 @@ const page = async () => {
   const productBestSeller = await fetchWithToken(
     `${ENDPOINT.GET_PRODUCT_DETAIL}?${searchataProduct}&filters[isBestSeller][$eq]=true&pagination[page]=1&pagination[pageSize]=10`
   );
+
   const dataProductBestSeller = productBestSeller?.data;
 
   const danhMucTrangChu = await fetchWithToken(

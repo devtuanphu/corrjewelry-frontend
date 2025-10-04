@@ -21,6 +21,7 @@ interface PropsBestSeller {
 const BestSeller: React.FC<PropsBestSeller> = ({ img_bestseller, data }) => {
   const baseUrl = process.env.NEXT_PUBLIC_URL_BE || "";
   const [activeTab, setActiveTab] = useState(0); // Default chọn Nam
+  console.log(data);
 
   // Hàm xử lý tab chuyển đổi
   const handleNext = () => {

@@ -108,11 +108,7 @@ export async function generateMetadata({
     },
   };
 }
-const paths = [
-  { label: "Trang chủ", link: "/" },
-  { label: "Danh sách sản phẩm", link: "#" },
-  { label: "Lắc tay cỏ bốn lá", link: "#" },
-];
+
 const page = async ({ params }: { params: { slug: string } }) => {
   const { slug } = params;
   const dataWhyChoosen = await fetchWithToken(
@@ -123,6 +119,22 @@ const page = async ({ params }: { params: { slug: string } }) => {
     `${ENDPOINT.GET_PRODUCT_DETAIL}?${searchParams}&filters[slug][$eq]=${slug}`
   );
   const images = dataHome.data[0].attributes?.images?.data;
+  const title = dataHome?.data[0]?.attributes?.title;
+  const paths = [
+    { label: "Trang chủ", link: "/" },
+    { label: "Danh sách sản phẩm", link: "#" },
+    { label: title || "", link: "#" },
+  ];
+  const tag = dataHome?.data[0]?.attributes?.tag;
+
+  const dataProductRecommend =
+    tag === "Nam"
+      ? await fetchWithToken(`${ENDPOINT.GET_PRODUCT_BY_NAM}?${searchParams}`)
+      : tag === "Nữ"
+      ? await fetchWithToken(`${ENDPOINT.GET_PRODUCT_BY_NU}?${searchParams}`)
+      : await fetchWithToken(
+          `${ENDPOINT.GET_PRODUCT_BY_UNISEX}?${searchParams}`
+        );
 
   return (
     <>
@@ -149,6 +161,11 @@ const page = async ({ params }: { params: { slug: string } }) => {
           </h2>
         </div>
         <div className="grid grid-cols-12 gap-2 md:gap-4">
+          {dataProductRecommend?.data?.map((product: any) => (
+            <div key={product.id} className="col-span-6 md:col-span-3">
+              <CartProduct data={product} />
+            </div>
+          ))}
           {/* <div className="col-span-6 md:col-span-3">
             <CartProduct />
           </div>

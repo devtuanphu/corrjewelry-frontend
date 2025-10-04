@@ -230,7 +230,7 @@ const CarouselProductDetail: React.FC<CarouselProductDetailProps> = ({
           className="relative w-full rounded-xl overflow-hidden shadow-md"
           style={{ height: `${IMAGE_HEIGHT}px` }}
         >
-          <AnimatePresence initial={false} custom={direction}>
+          {/* <AnimatePresence initial={false} custom={direction}>
             <motion.div
               key={selectedImage}
               custom={direction}
@@ -244,8 +244,46 @@ const CarouselProductDetail: React.FC<CarouselProductDetailProps> = ({
                 src={baseUrl + images[selectedImage]?.attributes?.url}
                 alt={`Product ${selectedImage + 1}`}
                 className="object-cover rounded-xl cursor-pointer"
-                onClick={() => setIsOpen(true)} // Mở Lightbox khi nhấn vào ảnh
+                onClick={() => setIsOpen(true)}
               />
+            </motion.div>
+          </AnimatePresence> */}
+
+          <AnimatePresence initial={false} custom={direction}>
+            <motion.div
+              key={selectedImage}
+              custom={direction}
+              initial={{ x: direction > 0 ? 300 : -300, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: direction > 0 ? -300 : 300, opacity: 0 }}
+              transition={{ duration: 0.4, ease: "easeInOut" }}
+              className="absolute top-0 left-0 w-full h-full"
+            >
+              <div
+                className="relative w-full h-full group"
+                onClick={() => setIsOpen(true)}
+              >
+                <img
+                  src={baseUrl + images[selectedImage]?.attributes?.url}
+                  alt={`Product ${selectedImage + 1}`}
+                  className="object-cover rounded-xl cursor-pointer"
+                />
+
+                <div className="absolute inset-0 bg-black opacity-50 group-hover:opacity-0 transition-opacity duration-300"></div>
+
+                <motion.div
+                  className="absolute inset-0 flex justify-center items-center"
+                  initial={{ scale: 1 }}
+                  whileHover={{ scale: 1.5 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <img
+                    src={baseUrl + images[selectedImage]?.attributes?.url}
+                    alt={`Product ${selectedImage + 1}`}
+                    className="object-contain max-w-full max-h-full cursor-pointer"
+                  />
+                </motion.div>
+              </div>
             </motion.div>
           </AnimatePresence>
         </div>
