@@ -121,8 +121,6 @@ const page = async () => {
   const title = seo?.title;
   const description = seo?.description;
 
-  console.log(banner);
-
   return (
     <div className="flex flex-col gap-[70px] pb-[50px]">
       <div className="hidden md:block">

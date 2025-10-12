@@ -9,7 +9,7 @@ const nextConfig = {
     NEXT_PUBLIC_NEXTAUTH_SECRET: process.env.NEXT_PUBLIC_NEXTAUTH_SECRET,
   },
   images: {
-    domains: ["localhost", "127.0.0.1"], // Cho phép tải hình ảnh từ localhost
+    domains: ["localhost", "127.0.0.1", "admin.corrjewelry.vn"], // Cho phép tải hình ảnh từ localhost
     remotePatterns: [
       {
         protocol: "http", // Chắc chắn sử dụng HTTP, vì Strapi đang chạy trên HTTP (local)

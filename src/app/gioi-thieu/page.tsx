@@ -108,7 +108,7 @@ const page = async () => {
   const dataHome = await fetchWithToken(
     `${ENDPOINT.GET_GIOI_THIEU}?${searchParams}`
   );
-  console.log(dataHome);
+
   const blog = await fetchWithToken(
     `${ENDPOINT.GET_BLOG}?populate=seo.thumbnail&pagination[page]=1&pagination[pageSize]=3`
   );

@@ -129,8 +129,6 @@ const page = async () => {
       <div className="py-20">
         <div className="grid grid-cols-12 gap-6">
           {shop?.map((item: any) => {
-            console.log(item.icon);
-
             return (
               <>
                 <div className="col-span-6 md:col-span-3">

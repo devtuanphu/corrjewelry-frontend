@@ -109,7 +109,6 @@ const page = async ({ params }: { params: { slug: string } }) => {
     `${ENDPOINT.GET_BLOG}?${searchParams}&filters[slug][$eq]=${slug}`
   );
   const blogDetail = dataHome?.data;
-  console.log(blogDetail);
 
   return (
     <div className="container py-8">

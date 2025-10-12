@@ -97,7 +97,7 @@ const page = async () => {
   const dataHome = await fetchWithToken(
     `${ENDPOINT.GET_BLOG_PAGE}?${searchParams}`
   );
-  console.log(dataHome);
+
   const seo =
     (dataHome &&
       dataHome.data &&

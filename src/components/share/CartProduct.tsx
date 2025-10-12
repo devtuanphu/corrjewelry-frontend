@@ -36,9 +36,12 @@ const CartProduct: React.FC<CartProductProps> = ({ data }) => {
     }
   }, [salePrice, originalPrice]);
 
-  const imageProduct = data?.images[0]?.url
-    ? data?.images[0]?.url
-    : data?.images?.data[0]?.attributes?.url;
+  // const imageProduct = data?.images[0]?.url
+  //   ? data?.images[0]?.url
+  //   : data?.images?.data[0]?.attributes?.url;
+  const imageProduct =
+    data?.images?.[0]?.url || data?.images?.data?.[0]?.attributes?.url || "";
+
   return (
     <>
       <Link href={`/san-pham/${data?.slug}`}>

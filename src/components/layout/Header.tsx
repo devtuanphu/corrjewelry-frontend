@@ -136,7 +136,9 @@ const Header = () => {
       headerData[hoveredMenu as keyof typeof headerData]?.danh_muc_con || [];
     const selectedMenuContentVideo =
       headerData[hoveredMenu as keyof typeof headerData]?.content_video || [];
-    const avatarVideo = BASE_URL + selectedMenuContentVideo?.avatar?.url;
+    const avatarVideo = selectedMenuContentVideo?.avatar?.url
+      ? BASE_URL + selectedMenuContentVideo.avatar.url
+      : ""; // Nếu không có giá trị, trả về chuỗi rỗng
 
     return (
       <>
@@ -188,7 +190,7 @@ const Header = () => {
                       {selectedMenuContentVideo && (
                         <div className="relative mb-4 w-[176px] h-[104px]">
                           <Image
-                            src={avatarVideo}
+                            src={avatarVideo || ""} // Đảm bảo có URL hợp lệ
                             alt="avatar"
                             width={200}
                             height={200}
@@ -287,7 +289,6 @@ const Header = () => {
       // if (selectedSizeObj) {
       //   total += selectedSizeObj.price * item.amount; // Tổng = giá * số lượng
       // }
-      console.log(item);
 
       total += item?.price * item.amount;
     });

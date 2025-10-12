@@ -33,7 +33,6 @@ const CardSale: React.FC<CardSaleProps> = ({ data }) => {
   const baseUrl = process.env.NEXT_PUBLIC_URL_BE || "";
 
   const image = data?.attributes?.images?.data[0]?.attributes?.url;
-  console.log(image);
 
   const [size, setSize] = useState<string | undefined>(undefined);
   const [formattedSalePrice, setFormattedSalePrice] = useState<string>("");
@@ -62,8 +61,6 @@ const CardSale: React.FC<CardSaleProps> = ({ data }) => {
     }
   }, [salePrice, originalPrice]);
   const handleBuyNow = async () => {
-    console.log(data?.id);
-
     const userId = localStorage.getItem("userId");
     const currentDate = new Date().toISOString();
     const ID_order = generateOrderId();
@@ -113,7 +110,6 @@ const CardSale: React.FC<CardSaleProps> = ({ data }) => {
           // Gọi API tạo đơn hàng với dữ liệu orderData
           createOrderService(newOrderData)
             .then((createResponse: any) => {
-              console.log("Order Created:", createResponse);
               if (createResponse) {
                 setTimeout(() => {
                   // Chuyển hướng tới trang thanh toán sau khi tạo đơn hàng thành công

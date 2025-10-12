@@ -90,7 +90,6 @@ const page = async () => {
   );
 
   const content = dataHome?.data?.attributes?.content;
-  console.log(content);
 
   return (
     <div className="flex flex-col gap-[70px] pb-[50px] pt-8">
