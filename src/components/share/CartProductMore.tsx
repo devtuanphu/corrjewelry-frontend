@@ -40,7 +40,9 @@ const CartProductMore: React.FC<CartProductMoreProps> = ({ data }) => {
     }
   }, [salePrice, originalPrice]);
 
-  const imageProduct = data?.attributes?.images?.data[0]?.attributes?.url || "";
+  const imageProduct = data?.attributes?.images?.data
+    ? data?.attributes?.images?.data[0]?.attributes?.url
+    : "";
 
   return (
     <>
