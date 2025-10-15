@@ -1,16 +1,22 @@
+"use server";
 import React from "react";
 import Image from "next/image";
 import DemoImageCollection from "../../../public/images/demo-bo-suu-tap.png";
 import NewArrivalCollection from "./NewArrivalCollection";
 import { quicksand } from "@/font";
+import Link from "next/link";
 interface CollectionDetailProps {
   item: any;
 }
 const CollectionDetail: React.FC<CollectionDetailProps> = ({ item }) => {
+  const baseUrl = process.env.NEXT_PUBLIC_URL_BE || "";
+
   return (
     <div className="container">
       <div className="grid grid-cols-12 gap-8">
         {item?.map((product: any, index: number) => {
+          console.log(product?.image?.data?.attributes?.url);
+
           if (index % 2 === 0) {
             return (
               <>
@@ -20,9 +26,13 @@ const CollectionDetail: React.FC<CollectionDetailProps> = ({ item }) => {
                 >
                   <div className="relative">
                     <Image
-                      src={DemoImageCollection}
+                      src={
+                        baseUrl + product?.image?.data?.attributes?.url || ""
+                      }
                       alt="Bộ sưu tập"
                       className="w-full"
+                      width={product?.image?.data?.attributes?.width}
+                      height={product?.image?.data?.attributes?.height}
                     />
                     <div className="absolute inset-0 bg-black bg-opacity-50 z-[1]" />
                     <div className="absolute top-1/2 left-1/2 z-[2] transform -translate-x-1/2 -translate-y-1/2">
@@ -37,9 +47,12 @@ const CollectionDetail: React.FC<CollectionDetailProps> = ({ item }) => {
                         >
                           {product.description || "Mô tả sản phẩm"}
                         </p>
-                        <button className="p-4 text-white border border-solid border-white">
+                        <Link
+                          href={product.llink}
+                          className="p-4 text-white border border-solid border-white"
+                        >
                           SHOP NOW
-                        </button>
+                        </Link>
                       </div>
                     </div>
                   </div>

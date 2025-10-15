@@ -166,18 +166,6 @@ const page = async ({ params }: { params: { slug: string } }) => {
               <CartProduct data={product} />
             </div>
           ))}
-          {/* <div className="col-span-6 md:col-span-3">
-            <CartProduct />
-          </div>
-          <div className="col-span-6 md:col-span-3">
-            <CartProduct />
-          </div>
-          <div className="col-span-6 md:col-span-3">
-            <CartProduct />
-          </div>
-          <div className="col-span-6 md:col-span-3">
-            <CartProduct />
-          </div> */}
         </div>
       </div>
       <WhyChooseUs dataWhy={dataWhy} />

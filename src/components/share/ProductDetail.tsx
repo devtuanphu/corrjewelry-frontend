@@ -225,7 +225,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ data }) => {
 
         <div>
           <textarea
-            placeholder="Khắc tên - ngày sinh - icon... (Vui lòng ghi chú rõ nội dung)"
+            placeholder="Vui lòng cung cấp chu vi ngón tay hoặc cổ tay để CORR điều chỉnh size chuẩn xác nhất."
             className="w-full h-[80px] p-2 border border-gray-300 rounded resize-none text-sm focus:outline-none"
             value={noted}
             onChange={(e) => setNoted(e.target.value)}

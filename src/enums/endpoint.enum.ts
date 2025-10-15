@@ -33,7 +33,7 @@ export const ENDPOINT = {
   GET_PRODUCT_BY_DETAIL_CATEGORY: `${BASE_URL}/api/nams/san-pham-danh-muc-chi-tiet`,
   GET_PRODUCT_BY_NU: `${BASE_URL}/api/nus/products`,
   GET_LIST_DANH_MUC_NU: `${BASE_URL}/api/nus/danh-muc-con`,
-  GET_CHI_TIET_DANH_MUC_SLUG_NU: `${BASE_URL}/api/nams/chi-tiet-danh-muc-con`,
+  GET_CHI_TIET_DANH_MUC_SLUG_NU: `${BASE_URL}/api/nus/chi-tiet-danh-muc-con`,
   GET_PRODUCT_CATEGORY_BY_SLUG_NU: `${BASE_URL}/api/nams/danh-muc-con-by-slug`,
   GET_PRODUCT_BY_DETAIL_CATEGORY_NU: `${BASE_URL}/api/nus/san-pham-danh-muc-chi-tiet`,
   GET_PRODUCT_BY_UNISEX: `${BASE_URL}/api/unisexs/products`,
