@@ -153,8 +153,6 @@ const page = async () => {
 
   return (
     <div className="flex flex-col gap-[70px] pb-[50px]">
-      {/* <Banner banner={banner} /> */}
-
       <SlideHome slides={bannerSlide} />
       <NewArrival data={dataProductArrival} />
       <Category dataNam={dataNam} dataNu={dataNu} dataUnisex={dataUnisex} />
