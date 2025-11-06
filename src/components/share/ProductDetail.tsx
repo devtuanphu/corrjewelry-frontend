@@ -249,7 +249,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ data }) => {
               hover:!bg-[#e4e4e4] focus:!shadow-none !outline-none`}
                     style={{ borderRight: "none" }}
                   >
-                    {`Size ${item.size}`}
+                    {`${item.size}`}
                   </Radio.Button>
                 );
               })}
