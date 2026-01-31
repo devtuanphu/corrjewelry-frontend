@@ -1,4 +1,4 @@
-"use server";
+
 import React from "react";
 import { robotosand, quicksand } from "@/font";
 import BoxImage from "../../../public/icon/Box.svg";

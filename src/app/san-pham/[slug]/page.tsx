@@ -161,9 +161,9 @@ const page = async ({ params }: { params: { slug: string } }) => {
           </h2>
         </div>
         <div className="grid grid-cols-12 gap-2 md:gap-4">
-          {dataProductRecommend?.data?.map((product: any) => (
+          {dataProductRecommend?.data?.map((product: any, index: number) => (
             <div key={product.id} className="col-span-6 md:col-span-3">
-              <CartProduct data={product} />
+              <CartProduct data={product} index={index} />
             </div>
           ))}
         </div>

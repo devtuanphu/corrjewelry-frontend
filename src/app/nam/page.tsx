@@ -1,11 +1,18 @@
 
 import React from "react";
+import dynamic from "next/dynamic";
 import BannerShare from "@/components/share/BannerShare";
-import BlogSection from "@/components/home/BlogSection";
-import WhyChooseUs from "@/components/home/WhyChooseUs";
 import Products from "@/components/share/Products";
 import { apiService } from "@/services/api.service";
 import { ENDPOINT } from "@/enums/endpoint.enum";
+
+// Dynamic imports for below-the-fold components to reduce initial JS
+const BlogSection = dynamic(() => import("@/components/home/BlogSection"), {
+  ssr: true,
+});
+const WhyChooseUs = dynamic(() => import("@/components/home/WhyChooseUs"), {
+  ssr: true,
+});
 const searchDataWhy = {
   populate: ["item.icon"].toString(),
 };

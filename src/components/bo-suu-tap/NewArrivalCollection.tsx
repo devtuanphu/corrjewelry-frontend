@@ -91,7 +91,7 @@ const NewArrivalCollection: React.FC<NewArrivalCollectionProps> = ({
           {product?.data?.map((item: any, index: number) => {
             return (
               <SwiperSlide key={index}>
-                <CartProduct data={item?.attributes} />
+                <CartProduct data={item?.attributes} index={index} />
               </SwiperSlide>
             );
           })}

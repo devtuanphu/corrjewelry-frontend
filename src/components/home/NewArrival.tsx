@@ -62,9 +62,9 @@ const NewArrival: React.FC<NewArrivalProps> = ({ data }) => {
           modules={[Pagination, Navigation]}
           className="mySwiper"
         >
-          {data?.map((item: any) => (
+          {data?.map((item: any, index: number) => (
             <SwiperSlide key={item?.id}>
-              <CartProduct data={item?.attributes} />
+              <CartProduct data={item?.attributes} index={index} />
             </SwiperSlide>
           ))}
         </Swiper>

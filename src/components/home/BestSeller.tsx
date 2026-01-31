@@ -100,8 +100,8 @@ const BestSeller: React.FC<PropsBestSeller> = ({ img_bestseller, data }) => {
           </div>
 
           <div className="grid grid-cols-2 gap-2 mdgap-12 pt-8 flex-1">
-            {filteredData?.map((item: any) => (
-              <CartProduct key={item.id} data={item?.attributes} />
+            {filteredData?.map((item: any, index: number) => (
+              <CartProduct key={item.id} data={item?.attributes} index={index} />
             ))}
           </div>
         </div>
@@ -144,8 +144,8 @@ const BestSeller: React.FC<PropsBestSeller> = ({ img_bestseller, data }) => {
           </div>
         </div>
         <div className="grid grid-cols-2 gap-2 mdgap-12 pt-8 flex-1">
-          {filteredData?.map((item: any) => (
-            <CartProduct key={item.id} data={item?.attributes} />
+          {filteredData?.map((item: any, index: number) => (
+            <CartProduct key={item.id} data={item?.attributes} index={index} />
           ))}
         </div>
       </div>

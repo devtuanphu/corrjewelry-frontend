@@ -349,9 +349,9 @@ const Products: React.FC<ProductsProps> = ({
 
             {/* Product Grid */}
             <div className="grid grid-cols-12 gap-2 md:gap-8">
-              {productsData?.data?.map((product: any) => (
+              {productsData?.data?.map((product: any, index: number) => (
                 <div key={product.id} className="col-span-6 md:col-span-4">
-                  <CartProduct data={product} />
+                  <CartProduct data={product} index={index} />
                 </div>
               ))}
             </div>

@@ -1,4 +1,3 @@
-"use server";
 import React from "react";
 import { robotosand } from "@/font";
 import CartBlog from "../share/CartBlog";
@@ -10,7 +9,8 @@ interface BlogSectionProps {
 const BlogSection: React.FC<BlogSectionProps> = async ({ data }) => {
   return (
     <>
-      <div className="container pt-[40px]">
+      {/* min-h to prevent CLS when content loads */}
+      <div className="container pt-[40px] min-h-[400px]">
         <div className="flex flex-col gap-4">
           <div className="flex justify-center ">
             <Link

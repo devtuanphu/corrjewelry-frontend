@@ -1,4 +1,4 @@
-"use server";
+
 import React from "react";
 
 import { robotosand, worksand } from "@/font";

@@ -9,10 +9,12 @@ import Start from "../../../public/icon/start.svg";
 import Link from "next/link";
 interface CartProductMoreProps {
   data: any;
+  index?: number;
 }
 
-const CartProductMore: React.FC<CartProductMoreProps> = ({ data }) => {
-  console.log(data);
+const CartProductMore: React.FC<CartProductMoreProps> = ({ data, index = 99 }) => {
+  // Only use priority for first 4 images (above the fold)
+  const isPriority = index < 4;
 
   const [formattedSalePrice, setFormattedSalePrice] = useState<string>("");
   const [formattedOriginalPrice, setFormattedOriginalPrice] =
@@ -57,7 +59,8 @@ const CartProductMore: React.FC<CartProductMoreProps> = ({ data }) => {
                   fill
                   sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   className="object-cover"
-                  loading="lazy"
+                  priority={isPriority}
+                  loading={isPriority ? undefined : "lazy"}
                 />
               </div>
             )}

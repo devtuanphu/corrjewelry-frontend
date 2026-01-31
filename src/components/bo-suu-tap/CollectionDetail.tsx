@@ -1,4 +1,4 @@
-"use server";
+
 import React from "react";
 import Image from "next/image";
 import DemoImageCollection from "../../../public/images/demo-bo-suu-tap.png";
