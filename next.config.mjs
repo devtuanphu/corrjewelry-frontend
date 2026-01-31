@@ -1,5 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Optimize JS bundle
+  compiler: {
+    removeConsole: process.env.NODE_ENV === "production",
+  },
+  // Experimental optimizations
+  experimental: {
+    optimizePackageImports: ["antd", "@ant-design/icons", "swiper", "framer-motion"],
+  },
   env: {
     NEXT_PUBLIC_URL_BE: process.env.NEXT_PUBLIC_URL_BE,
     NEXT_PUBLIC_TOKEN_DEV: process.env.NEXT_PUBLIC_TOKEN_DEV,

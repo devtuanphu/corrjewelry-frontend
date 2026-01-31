@@ -7,8 +7,11 @@ import Link from "next/link";
 import { blob } from "stream/consumers";
 interface CartBlogProps {
   data: any;
+  index?: number;
 }
-const CartBlog: React.FC<CartBlogProps> = ({ data }) => {
+const CartBlog: React.FC<CartBlogProps> = ({ data, index = 99 }) => {
+  // Only use priority for first blog image (above the fold)
+  const isPriority = index === 0;
   const baseUrl = process.env.NEXT_PUBLIC_URL_BE || "";
   const formatDate = (isoDate: string) => {
     const date = new Date(isoDate);
@@ -33,7 +36,8 @@ const CartBlog: React.FC<CartBlogProps> = ({ data }) => {
             width={400}
             height={400}
             sizes="(max-width: 768px) 100vw, 33vw"
-            loading="lazy"
+            priority={isPriority}
+            loading={isPriority ? undefined : "lazy"}
           />
           <div
             className={`flex gap-4 ${robotosand.className} text-[16px] font-medium text-[#4C4C4C]`}

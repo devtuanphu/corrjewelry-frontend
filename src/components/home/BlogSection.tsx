@@ -25,10 +25,10 @@ const BlogSection: React.FC<BlogSectionProps> = async ({ data }) => {
           </div>
           <div className="grid grid-cols-12 gap-2 md:gap-8">
             {data &&
-              data.map((item: any) => {
+              data.map((item: any, index: number) => {
                 return (
                   <div className="col-span-12 md:col-span-4" key={item.id}>
-                    <CartBlog data={item} />
+                    <CartBlog data={item} index={index} />
                   </div>
                 );
               })}
