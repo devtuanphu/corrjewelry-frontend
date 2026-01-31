@@ -140,13 +140,8 @@ const page = async () => {
         endpoint={ENDPOINT.GET_PRODUCT_BY_NU}
         endpointFilter={ENDPOINT.GET_LIST_DANH_MUC_NU}
       />
-      {/* Min-height wrappers to prevent CLS from dynamic imports */}
-      <div className="min-h-[500px] md:min-h-[450px]">
-        <BlogSection data={dataBlog} />
-      </div>
-      <div className="min-h-[150px]">
-        <WhyChooseUs dataWhy={dataWhy} />
-      </div>
+      <BlogSection data={dataBlog} />
+      <WhyChooseUs dataWhy={dataWhy} />
     </div>
   );
 };

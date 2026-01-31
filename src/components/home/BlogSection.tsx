@@ -9,8 +9,8 @@ interface BlogSectionProps {
 const BlogSection: React.FC<BlogSectionProps> = async ({ data }) => {
   return (
     <>
-      {/* Responsive min-h: mobile=1600px (3 stacked cards), desktop=500px (1 row) */}
-      <div className="container pt-[40px] min-h-[1600px] md:min-h-[500px]">
+      {/* Blog section - no min-h to avoid mobile issues */}
+      <div className="container pt-[40px]">
         <div className="flex flex-col gap-4">
           <div className="flex justify-center ">
             <Link
