@@ -347,13 +347,26 @@ const Products: React.FC<ProductsProps> = ({
               </div>
             </div>
 
-            {/* Product Grid */}
-            <div className="grid grid-cols-12 gap-2 md:gap-8">
-              {productsData?.data?.map((product: any, index: number) => (
-                <div key={product.id} className="col-span-6 md:col-span-4">
-                  <CartProduct data={product} index={index} />
-                </div>
-              ))}
+            {/* Product Grid - with skeleton loading */}
+            <div className="grid grid-cols-12 gap-2 md:gap-8 min-h-[600px]">
+              {!productsData?.data ? (
+                // Skeleton loading placeholders to prevent CLS
+                [...Array(6)].map((_, i) => (
+                  <div key={i} className="col-span-6 md:col-span-4">
+                    <div className="animate-pulse">
+                      <div className="bg-gray-200 aspect-square rounded-lg"></div>
+                      <div className="mt-3 h-4 bg-gray-200 rounded w-3/4"></div>
+                      <div className="mt-2 h-4 bg-gray-200 rounded w-1/2"></div>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                productsData.data.map((product: any, index: number) => (
+                  <div key={product.id} className="col-span-6 md:col-span-4">
+                    <CartProduct data={product} index={index} />
+                  </div>
+                ))
+              )}
             </div>
 
             {/* <div className="mt-8">
