@@ -55,12 +55,14 @@ const CartProductMore: React.FC<CartProductMoreProps> = ({ data, index = 99 }) =
               <div className="relative w-full aspect-square">
                 <Image
                   src={baseUrl + imageProduct}
-                  alt="product"
+                  alt={data?.attributes?.title || "product"}
                   fill
-                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                  sizes="(max-width: 480px) 45vw, (max-width: 768px) 40vw, (max-width: 1024px) 30vw, 25vw"
                   className="object-cover"
                   priority={isPriority}
                   loading={isPriority ? undefined : "lazy"}
+                  placeholder="blur"
+                  blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAUH/8QAIhAAAgEDAwUBAAAAAAAAAAAAAQIDAAQRBQYhEhMiMVFh/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAZEQACAwEAAAAAAAAAAAAAAAABAgADESH/2gAMAwEAAhEDEEA/ANMt9t28qJKdVnRmUEqQpwfg9VLaiooPJNSi//Z"
                 />
               </div>
             )}

@@ -31,13 +31,15 @@ const CartBlog: React.FC<CartBlogProps> = ({ data, index = 99 }) => {
         <div className="flex flex-col gap-4">
           <Image
             src={image}
-            alt="Tin tức"
+            alt={data?.attributes?.seo?.title || "Tin tức"}
             className="w-full"
             width={400}
             height={400}
             sizes="(max-width: 768px) 100vw, 33vw"
             priority={isPriority}
             loading={isPriority ? undefined : "lazy"}
+            placeholder="blur"
+            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAUH/8QAIhAAAgEDAwUBAAAAAAAAAAAAAQIDAAQRBQYhEhMiMVFh/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAZEQACAwEAAAAAAAAAAAAAAAABAgADESH/2gAMAwEAAhEDEEA/ANMt9t28qJKdVnRmUEqQpwfg9VLaiooPJNSi//Z"
           />
           <div
             className={`flex gap-4 ${robotosand.className} text-[16px] font-medium text-[#4C4C4C]`}
