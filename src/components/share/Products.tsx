@@ -1,5 +1,6 @@
 "use client";
 import React, { useCallback, useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import CartProduct from "./CartProduct";
 import { robotosand, quicksand } from "@/font";
 import Image from "next/image";
@@ -7,10 +8,12 @@ import ArrowDown from "../../../public/icon/arrowdown.svg";
 import ArrowRight from "../../../public/icon/arrow-right.svg";
 import ArrowLeft from "../../../public/icon/arrow-left.svg";
 import IconFilter from "../../../public/icon/mage_filter.svg";
-import Filter from "./Filter";
-import { Drawer } from "antd";
 import IconClose from "../../../public/icon/icon-close.svg";
 import { ENDPOINT } from "@/enums/endpoint.enum";
+
+// Dynamic imports to reduce initial JS bundle
+const Filter = dynamic(() => import("./Filter"), { ssr: false });
+const Drawer = dynamic(() => import("antd").then(mod => mod.Drawer), { ssr: false });
 interface ProductsProps {
   endpoint: string;
   endpointFilter?: string;

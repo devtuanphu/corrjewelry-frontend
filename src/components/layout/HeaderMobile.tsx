@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import Hambuger from "../../../public/icon/Hamburger Menu.svg";
 import Logo from "../../../public/images/logo-footer.png";
 import CartIcon from "../../../public/icon/cart_icon.svg";
@@ -15,7 +16,10 @@ import AvatarImage from "../../../public/icon/avt.jpg";
 import Marquee from "react-fast-marquee";
 import { apiService } from "@/services/api.service";
 import { ENDPOINT } from "@/enums/endpoint.enum";
-import { Drawer } from "antd";
+
+// Dynamic import Drawer to reduce initial JS bundle
+const Drawer = dynamic(() => import("antd").then(mod => mod.Drawer), { ssr: false });
+
 const HeaderMobile = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(0);
