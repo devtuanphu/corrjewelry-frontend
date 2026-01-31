@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
+import { getOptimizedImageUrl } from "@/utils/imageHelper";
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -36,8 +37,9 @@ const SlideHome: React.FC<Props> = ({ slides }) => {
         slidesPerView={1}
       >
         {slides?.map((slide, index) => {
-          const imageUrl = slide.image?.data?.attributes?.url
-            ? `${process.env.NEXT_PUBLIC_URL_BE}${slide.image.data.attributes.url}`
+          const optimizedUrl = getOptimizedImageUrl(slide.image);
+          const imageUrl = optimizedUrl
+            ? `${process.env.NEXT_PUBLIC_URL_BE}${optimizedUrl}`
             : "/fallback.jpg";
 
           return (

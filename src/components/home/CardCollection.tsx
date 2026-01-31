@@ -4,12 +4,14 @@ import { worksand } from "@/font";
 import { quicksand } from "@/font";
 import CollectionImage from "../../../public/images/colleciton.jpg";
 import Link from "next/link";
+import { getOptimizedImageUrl } from "@/utils/imageHelper";
+
 interface CardCollectionProps {
   data: any;
 }
 const CardCollection: React.FC<CardCollectionProps> = ({ data }) => {
   const baseUrl = process.env.NEXT_PUBLIC_URL_BE || "";
-  const image = baseUrl + data?.avatar?.data?.attributes?.url;
+  const image = baseUrl + getOptimizedImageUrl(data?.avatar);
 
   return (
     <>

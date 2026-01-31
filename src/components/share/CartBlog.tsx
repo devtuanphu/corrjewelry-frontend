@@ -21,8 +21,15 @@ const CartBlog: React.FC<CartBlogProps> = ({ data, index = 99 }) => {
 
     return `${day}-${month}-${year}`;
   };
-  const image =
-    baseUrl + data?.attributes?.seo?.thumbnail?.data?.attributes?.url;
+  // Use Strapi's pre-resized small format for faster loading
+  const getOptimizedImage = () => {
+    const imgData = data?.attributes?.seo?.thumbnail?.data?.attributes;
+    if (imgData?.formats?.small?.url) {
+      return imgData.formats.small.url;
+    }
+    return imgData?.url || "";
+  };
+  const image = baseUrl + getOptimizedImage();
 
   return (
     <>

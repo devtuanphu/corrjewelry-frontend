@@ -42,9 +42,15 @@ const CartProductMore: React.FC<CartProductMoreProps> = ({ data, index = 99 }) =
     }
   }, [salePrice, originalPrice]);
 
-  const imageProduct = data?.attributes?.images?.data
-    ? data?.attributes?.images?.data[0]?.attributes?.url
-    : "";
+  // Use Strapi's pre-resized small format (~500px) for faster loading
+  const getOptimizedImage = () => {
+    const imgData = data?.attributes?.images?.data?.[0]?.attributes;
+    if (imgData?.formats?.small?.url) {
+      return imgData.formats.small.url;
+    }
+    return imgData?.url || "";
+  };
+  const imageProduct = getOptimizedImage();
 
   return (
     <>

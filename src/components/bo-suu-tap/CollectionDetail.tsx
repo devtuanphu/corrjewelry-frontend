@@ -5,6 +5,8 @@ import DemoImageCollection from "../../../public/images/demo-bo-suu-tap.png";
 import NewArrivalCollection from "./NewArrivalCollection";
 import { quicksand } from "@/font";
 import Link from "next/link";
+import { getOptimizedImageUrl } from "@/utils/imageHelper";
+
 interface CollectionDetailProps {
   item: any;
 }
@@ -15,7 +17,7 @@ const CollectionDetail: React.FC<CollectionDetailProps> = ({ item }) => {
     <div className="container">
       <div className="grid grid-cols-12 gap-8">
         {item?.map((product: any, index: number) => {
-          console.log(product?.image?.data?.attributes?.url);
+          const productImage = getOptimizedImageUrl(product?.image);
 
           if (index % 2 === 0) {
             return (
@@ -27,7 +29,7 @@ const CollectionDetail: React.FC<CollectionDetailProps> = ({ item }) => {
                   <div className="relative">
                     <Image
                       src={
-                        baseUrl + product?.image?.data?.attributes?.url || ""
+                        baseUrl + productImage || ""
                       }
                       alt="Bộ sưu tập"
                       className="w-full"

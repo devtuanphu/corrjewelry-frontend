@@ -39,11 +39,21 @@ const CartProduct: React.FC<CartProductProps> = ({ data, index = 99 }) => {
     }
   }, [salePrice, originalPrice]);
 
-  // const imageProduct = data?.images[0]?.url
-  //   ? data?.images[0]?.url
-  //   : data?.images?.data[0]?.attributes?.url;
-  const imageProduct =
-    data?.images?.[0]?.url || data?.images?.data?.[0]?.attributes?.url || "";
+  // Use Strapi's pre-resized small format (~500px) for faster loading
+  // Fallback to original if small format not available
+  const getOptimizedImage = () => {
+    // For new Strapi format
+    if (data?.images?.[0]?.formats?.small?.url) {
+      return data.images[0].formats.small.url;
+    }
+    // For old Strapi format
+    if (data?.images?.data?.[0]?.attributes?.formats?.small?.url) {
+      return data.images.data[0].attributes.formats.small.url;
+    }
+    // Fallback to original
+    return data?.images?.[0]?.url || data?.images?.data?.[0]?.attributes?.url || "";
+  };
+  const imageProduct = getOptimizedImage();
 
   return (
     <>
