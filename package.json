@@ -30,6 +30,7 @@
     "react-modal-image": "^2.6.0",
     "react-owl-carousel": "^2.3.3",
     "react-swipeable": "^7.0.2",
+    "sharp": "^0.34.5",
     "socket.io-client": "^4.8.1",
     "swiper": "^11.2.6",
     "yet-another-react-lightbox": "^3.23.3"

@@ -9,19 +9,26 @@ const nextConfig = {
     NEXT_PUBLIC_NEXTAUTH_SECRET: process.env.NEXT_PUBLIC_NEXTAUTH_SECRET,
   },
   images: {
-    domains: ["localhost", "127.0.0.1", "admin.corrjewelry.vn"], // Cho phép tải hình ảnh từ localhost
+    // Tự động convert ảnh sang AVIF/WebP để giảm 50-70% dung lượng
+    formats: ["image/avif", "image/webp"],
+    // Các kích thước thiết bị để tối ưu srcset
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
+    // Các kích thước ảnh nhỏ (icons, thumbnails)
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    // Cache ảnh 1 năm
+    minimumCacheTTL: 31536000,
     remotePatterns: [
       {
-        protocol: "http", // Chắc chắn sử dụng HTTP, vì Strapi đang chạy trên HTTP (local)
-        hostname: "localhost", // Địa chỉ hostname của Strapi
-        port: "1337", // Port mà Strapi đang chạy
-        pathname: "/uploads/**", // Đảm bảo các đường dẫn hình ảnh trong Strapi sẽ được nhận diện
+        protocol: "http",
+        hostname: "localhost",
+        port: "1337",
+        pathname: "/uploads/**",
       },
       {
-        protocol: "http", // Chắc chắn sử dụng HTTP, vì Strapi đang chạy trên HTTP (local)
-        hostname: "127.0.0.1", // Địa chỉ hostname của Strapi
-        port: "1337", // Port mà Strapi đang chạy
-        pathname: "/uploads/**", // Đảm bảo các đường dẫn hình ảnh trong Strapi sẽ được nhận diện
+        protocol: "http",
+        hostname: "127.0.0.1",
+        port: "1337",
+        pathname: "/uploads/**",
       },
       {
         protocol: "https",
@@ -29,6 +36,29 @@ const nextConfig = {
         pathname: "/uploads/**",
       },
     ],
+  },
+  // Cache headers cho static assets
+  async headers() {
+    return [
+      {
+        source: "/:all*(svg|jpg|jpeg|png|webp|avif|gif|ico)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      {
+        source: "/:all*(js|css)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+    ];
   },
 };
 

@@ -49,10 +49,11 @@ const BestSeller: React.FC<PropsBestSeller> = ({ img_bestseller, data }) => {
           <Image
             src={`${baseUrl}${img_bestseller}`}
             alt="Best seller"
-            width={2000}
-            height={2000}
+            width={600}
+            height={800}
+            sizes="(max-width: 768px) 100vw, 40vw"
             className="w-full h-full object-cover rounded"
-            priority
+            loading="lazy"
           />
         </div>
 

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "../styles/globals.css";
 import Header from "@/components/layout/Header";
@@ -6,13 +6,22 @@ import Footer from "@/components/share/Footer";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import NextTopLoader from "nextjs-toploader";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ 
+  subsets: ["latin"],
+  display: "swap",
+  preload: true,
+});
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
 
 export const metadata: Metadata = {
   title: "CORR JEWELRY",
   description: "CORR JEWELRY",
-  viewport:
-    "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no",
 };
 
 export default function RootLayout({
@@ -21,7 +30,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="vi">
+      <head>
+        {/* Preconnect to backend for faster API/image loading */}
+        <link rel="preconnect" href="https://admin.corrjewelry.vn" />
+        <link rel="dns-prefetch" href="https://admin.corrjewelry.vn" />
+        {/* Preconnect to Google Fonts */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      </head>
       <body className={inter.className}>
         <AntdRegistry>
           <Header />
@@ -29,14 +46,11 @@ export default function RootLayout({
             color="#000000"
             initialPosition={0.08}
             crawlSpeed={200}
-            height={5}
+            height={3}
             crawl={true}
-            showSpinner={true}
+            showSpinner={false}
             easing="ease"
             speed={200}
-            shadow="0 0 10px #999999, 0 0 5px #ffffff"
-            template='<div class="bar" role="bar"><div class="peg"></div></div> 
-  <div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
             zIndex={1600}
             showAtBottom={false}
           />
@@ -47,3 +61,4 @@ export default function RootLayout({
     </html>
   );
 }
+

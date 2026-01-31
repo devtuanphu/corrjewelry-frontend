@@ -18,9 +18,10 @@ const CardCollection: React.FC<CardCollectionProps> = ({ data }) => {
           src={image}
           alt="Collection"
           className="w-full h-[300px]"
-          width={2000}
+          width={600}
           height={300}
-          priority
+          sizes="(max-width: 768px) 100vw, 50vw"
+          loading="lazy"
         />
         <div className="bg-[#f3f3f3] absolute left-0 bottom-0 px-[24px] py-[12px] leading-7">
           <h5

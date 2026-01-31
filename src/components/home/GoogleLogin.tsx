@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { notification } from "antd";
 import { loadGapiInsideDOM, loadAuth2 } from "gapi-script";
+import Image from "next/image";
 
 const GoogleLogin = () => {
   const [gapi, setGapi] = useState<any>(null);
@@ -88,6 +89,7 @@ const GoogleLogin = () => {
     };
 
     setAuth2();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gapi]);
 
   return (
@@ -97,7 +99,7 @@ const GoogleLogin = () => {
       className="w-full py-4 border border-solid border-[#D0D5DD] text-[#ffffff] text-[16px] font-medium rounded-[8px] flex items-center justify-center gap-2"
     >
       <div>
-        <img
+        <Image
           src="/icon/icongg.svg"
           width={24}
           height={24}
@@ -112,3 +114,4 @@ const GoogleLogin = () => {
 };
 
 export default GoogleLogin;
+

@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+
+# Block admin paths
+Disallow: /admin/
+Disallow: /api/
+
+# Allow all assets
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.webp$
+Allow: /*.avif$
+
+Sitemap: https://corrjewelry.vn/sitemap.xml

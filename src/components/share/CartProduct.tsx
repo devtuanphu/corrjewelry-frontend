@@ -48,13 +48,16 @@ const CartProduct: React.FC<CartProductProps> = ({ data }) => {
         <div className="flex flex-col gap-2">
           <div className="relative">
             {imageProduct && (
-              <img
-                src={baseUrl + imageProduct}
-                alt="product"
-                className="w-full"
-                height={100}
-                width={400}
-              />
+              <div className="relative w-full aspect-square">
+                <Image
+                  src={baseUrl + imageProduct}
+                  alt="product"
+                  fill
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                  className="object-cover"
+                  loading="lazy"
+                />
+              </div>
             )}
             {data?.isPrenium && (
               <div className="absolute top-[72px] left-0 ">
@@ -112,7 +115,6 @@ const CartProduct: React.FC<CartProductProps> = ({ data }) => {
                   height={16}
                   width={16}
                   alt="icon star"
-                  priority
                 />
               </div>
             </div>

@@ -143,13 +143,18 @@ const CardSale: React.FC<CardSaleProps> = ({ data }) => {
             <div className="w-full md:w-1/3 pb-4 md:0">
               <div className="h-full">
                 <div className="relative aspect-[3/3] w-full">
-                  <Image
-                    src={baseUrl + image}
-                    alt="product"
-                    fill
-                    className="object-cover"
-                    priority
-                  />
+                  {image && (
+                    <Image
+                      src={baseUrl + image}
+                      alt="product"
+                      fill
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                      className="object-cover"
+                      loading="lazy"
+                      placeholder="blur"
+                      blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAUH/8QAIhAAAgEDAwUBAAAAAAAAAAAAAQIDAAQRBQYhEhMiMUFR/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAYEQADAQEAAAAAAAAAAAAAAAAAAQIREv/aAAwDAQACEQMRAD8AzW0023vLCG4n1G6jkkXqZFSIgH0cf9rZ0O0hO0QBdXJP1e7+0pVKT0cmo//Z"
+                    />
+                  )}
                   {data?.attributes?.isPrenium && (
                     <div className="absolute top-[72px] left-0 ">
                       <div className="bg-[#E1E1E1] rotate-[-90deg] origin-top-left">

@@ -425,12 +425,12 @@ const Header = () => {
         >
           <div className="container">
             <Marquee speed={50} gradient={false}>
-              <span>
+              <span key="content1">
                 {headSale?.data?.attributes?.content1 ||
                   "Nhập mã SAM5 giảm 5% tất cả sản phẩm"}
               </span>
-              <span className="px-10"> ● </span>
-              <span>
+              <span key="separator" className="px-10"> ● </span>
+              <span key="content2">
                 {headSale?.data?.attributes?.content2 ||
                   "Free ship cho đơn hàng 500k"}
               </span>

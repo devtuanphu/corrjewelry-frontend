@@ -57,14 +57,19 @@ const Category: React.FC<PropsCategory> = ({ dataNam, dataNu, dataUnisex }) => {
                 <div className="col-span-4">
                   <div className="flex flex-col gap-4 group overflow-hidden">
                     <div className="overflow-hidden rounded-lg">
-                      <Image
-                        src={`${baseUrl}${item?.data?.thumbnail?.data?.attributes?.url}`}
-                        alt={item?.category}
-                        width={2000}
-                        height={2000}
-                        className="w-full h-auto transform transition-transform duration-300 group-hover:scale-105"
-                        priority
-                      />
+                      {item?.data?.thumbnail?.data?.attributes?.url && (
+                        <Image
+                          src={`${baseUrl}${item?.data?.thumbnail?.data?.attributes?.url}`}
+                          alt={item?.category}
+                          width={400}
+                          height={500}
+                          sizes="(max-width: 640px) 50vw, 33vw"
+                          className="w-full h-auto transform transition-transform duration-300 group-hover:scale-105"
+                          loading="lazy"
+                          placeholder="blur"
+                          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAUH/8QAIhAAAgEDAwUBAAAAAAAAAAAAAQIDAAQRBQYhEhMiMUFR/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAYEQADAQEAAAAAAAAAAAAAAAAAAQIREv/aAAwDAQACEQMRAD8AzW0023vLCG4n1G6jkkXqZFSIgH0cf9rZ0O0hO0QBdXJP1e7+0pVKT0cmo//Z"
+                        />
+                      )}
                     </div>
                     <h5
                       className={`underline text-center font-bold ${quicksand.className} text-[18px]`}

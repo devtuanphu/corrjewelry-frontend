@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { worksand, robotosand } from "@/font";
 import Link from "next/link";
 import CardSale from "./CardSale";
@@ -10,7 +10,7 @@ import { Navigation } from "swiper/modules";
 import IconRight from "../../../public/icon/chevron-down.svg";
 import IconLeft from "../../../public/icon/chevron-down (1).svg";
 import Image from "next/image";
-import { io } from "socket.io-client";
+import type { Socket } from "socket.io-client";
 import { apiService } from "@/services/api.service";
 import { ENDPOINT } from "@/enums/endpoint.enum";
 interface ItemOrderData {
@@ -31,9 +31,9 @@ interface OrderData {
   finalAmount: number;
   price_not_reduced: number;
 }
-const socket = io(`${process.env.NEXT_PUBLIC_URL_BE}`);
 
 const SaleOff = () => {
+  const socketRef = useRef<Socket | null>(null);
   const [countdown, setCountdown] = useState({
     days: "00",
     hours: "00",
@@ -62,23 +62,40 @@ const SaleOff = () => {
       console.error("Error fetching header data:", error);
     }
   };
+  
+  // Lazy load Socket.io - only import when component mounts
   useEffect(() => {
-    socket.on("countdown", (secondsLeft: number) => {
-      const days = Math.floor(secondsLeft / (3600 * 24));
-      const hours = Math.floor((secondsLeft % (3600 * 24)) / 3600);
-      const minutes = Math.floor((secondsLeft % 3600) / 60);
-      const seconds = secondsLeft % 60;
+    let isMounted = true;
+    
+    const initSocket = async () => {
+      const { io } = await import("socket.io-client");
+      if (!isMounted) return;
+      
+      socketRef.current = io(`${process.env.NEXT_PUBLIC_URL_BE}`);
+      
+      socketRef.current.on("countdown", (secondsLeft: number) => {
+        const days = Math.floor(secondsLeft / (3600 * 24));
+        const hours = Math.floor((secondsLeft % (3600 * 24)) / 3600);
+        const minutes = Math.floor((secondsLeft % 3600) / 60);
+        const seconds = secondsLeft % 60;
 
-      setCountdown({
-        days: String(days).padStart(2, "0"),
-        hours: String(hours).padStart(2, "0"),
-        minutes: String(minutes).padStart(2, "0"),
-        seconds: String(seconds).padStart(2, "0"),
+        setCountdown({
+          days: String(days).padStart(2, "0"),
+          hours: String(hours).padStart(2, "0"),
+          minutes: String(minutes).padStart(2, "0"),
+          seconds: String(seconds).padStart(2, "0"),
+        });
       });
-    });
+    };
+    
+    initSocket();
 
     return () => {
-      socket.off("countdown");
+      isMounted = false;
+      if (socketRef.current) {
+        socketRef.current.off("countdown");
+        socketRef.current.disconnect();
+      }
     };
   }, []);
 

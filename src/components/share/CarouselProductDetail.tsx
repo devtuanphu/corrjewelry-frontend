@@ -213,6 +213,7 @@ const CarouselProductDetail: React.FC<CarouselProductDetailProps> = ({
               width: "100%",
             }}
           >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={baseUrl + img?.attributes?.url}
               alt={`Thumbnail ${index + 1}`}
@@ -263,6 +264,7 @@ const CarouselProductDetail: React.FC<CarouselProductDetailProps> = ({
                 className="relative w-full h-full group"
                 onClick={() => setIsOpen(true)}
               >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={baseUrl + images[selectedImage]?.attributes?.url}
                   alt={`Product ${selectedImage + 1}`}
@@ -277,6 +279,7 @@ const CarouselProductDetail: React.FC<CarouselProductDetailProps> = ({
                   whileHover={{ scale: 1.5 }}
                   transition={{ duration: 0.3 }}
                 >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={baseUrl + images[selectedImage]?.attributes?.url}
                     alt={`Product ${selectedImage + 1}`}

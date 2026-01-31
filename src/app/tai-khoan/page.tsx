@@ -99,7 +99,7 @@ const Page = () => {
     };
 
     fetchOrderByUser();
-  }, [userId]); // Phụ thuộc vào userId, chỉ fetch khi userId có giá trị
+  }, [userId, TOKEN_DEV]); // Phụ thuộc vào userId, chỉ fetch khi userId có giá trị
 
   const showModal = (order: any) => {
     setSelectedOrder(order);
