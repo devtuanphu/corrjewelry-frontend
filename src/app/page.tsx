@@ -38,7 +38,7 @@ async function fetchWithToken(endpoint: string) {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    cache: "no-store",
+    next: { revalidate: 60 },
   });
 
   if (!response.ok) {

@@ -28,7 +28,7 @@ const MainBlog = () => {
   //     headers: {
   //       Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN_DEV}`,
   //     },
-  //     cache: "no-store",
+  //     next: { revalidate: 60 },
   //   });
 
   //   if (res.ok) {
@@ -54,7 +54,7 @@ const MainBlog = () => {
         headers: {
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN_DEV}`,
         },
-        cache: "no-store",
+        next: { revalidate: 60 },
       });
 
       if (res.ok) {

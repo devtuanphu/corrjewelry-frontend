@@ -88,7 +88,7 @@ const Products: React.FC<ProductsProps> = ({
   //     headers: {
   //       Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN_DEV}`,
   //     },
-  //     cache: "no-store",
+  //     next: { revalidate: 60 },
   //   });
   //   const data = await res.json();
   //   setProductsData(data);
@@ -100,7 +100,7 @@ const Products: React.FC<ProductsProps> = ({
   //       headers: {
   //         Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN_DEV}`,
   //       },
-  //       cache: "no-store",
+  //       next: { revalidate: 60 },
   //     });
   //     const data = await res.json();
   //     setListDanhMucNam(data?.data);
@@ -114,7 +114,7 @@ const Products: React.FC<ProductsProps> = ({
   //       headers: {
   //         Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN_DEV}`,
   //       },
-  //       cache: "no-store",
+  //       next: { revalidate: 60 },
   //     });
   //     const data = await res.json();
   //     setListSize(data?.data);
@@ -165,7 +165,7 @@ const Products: React.FC<ProductsProps> = ({
         headers: {
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN_DEV}`,
         },
-        cache: "no-store",
+        next: { revalidate: 60 },
       });
       const data = await res.json();
       setProductsData(data);
@@ -180,7 +180,7 @@ const Products: React.FC<ProductsProps> = ({
         headers: {
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN_DEV}`,
         },
-        cache: "no-store",
+        next: { revalidate: 60 },
       });
       const data = await res.json();
       setListDanhMucNam(data?.data);
@@ -196,7 +196,7 @@ const Products: React.FC<ProductsProps> = ({
         headers: {
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN_DEV}`,
         },
-        cache: "no-store",
+        next: { revalidate: 60 },
       });
       const data = await res.json();
       setListSize(data?.data);
