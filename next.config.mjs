@@ -19,10 +19,10 @@ const nextConfig = {
   images: {
     // Tự động convert ảnh sang AVIF/WebP để giảm 50-70% dung lượng
     formats: ["image/avif", "image/webp"],
-    // Các kích thước thiết bị để tối ưu srcset
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
+    // Các kích thước thiết bị - thêm sizes nhỏ hơn cho mobile
+    deviceSizes: [320, 420, 640, 750, 828, 1080, 1200, 1920],
     // Các kích thước ảnh nhỏ (icons, thumbnails)
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    imageSizes: [16, 32, 48, 64, 96, 128, 192, 256, 384],
     // Cache ảnh 1 năm
     minimumCacheTTL: 31536000,
     remotePatterns: [
