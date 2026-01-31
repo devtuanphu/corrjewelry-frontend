@@ -1,4 +1,4 @@
-"use server";
+
 import BreadcrumbBlack from "@/components/share/BreadcrumbBlack";
 import CarouselProductDetail from "@/components/share/CarouselProductDetail";
 import ProductDetail from "@/components/share/ProductDetail";

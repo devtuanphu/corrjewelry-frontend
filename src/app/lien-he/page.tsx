@@ -1,4 +1,4 @@
-"use server";
+
 import React from "react";
 import { quicksand } from "@/font";
 import Image from "next/image";

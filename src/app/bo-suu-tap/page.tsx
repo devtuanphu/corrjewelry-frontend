@@ -1,4 +1,4 @@
-"use server";
+
 import React from "react";
 import { robotocondensed } from "@/font";
 import CollectionDetail from "@/components/bo-suu-tap/CollectionDetail";

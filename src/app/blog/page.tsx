@@ -1,4 +1,4 @@
-"use server";
+
 import React from "react";
 import BannerShare from "@/components/share/BannerShare";
 import MainBlog from "@/components/blog/MainBlog";

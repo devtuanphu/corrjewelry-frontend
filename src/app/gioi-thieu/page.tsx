@@ -1,4 +1,4 @@
-"use server";
+
 import React from "react";
 import ImageGioiThieu from "../../../public/images/gioi-thieu.jpg";
 import Image from "next/image";

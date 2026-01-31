@@ -1,4 +1,4 @@
-"use server";
+
 import React from "react";
 import { ENDPOINT } from "@/enums/endpoint.enum";
 import BannerShare from "@/components/share/BannerShare";

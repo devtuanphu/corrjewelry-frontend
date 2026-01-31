@@ -1,4 +1,4 @@
-"use server";
+
 import React from "react";
 import ImageTinTucDemo from "../../../../public/images/tin-tuc.jpg";
 import Image from "next/image";

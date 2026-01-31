@@ -1,4 +1,4 @@
-"use server";
+
 import BreadcrumbBlack from "@/components/share/BreadcrumbBlack";
 import React from "react";
 import CardProductOrder from "@/components/share/CardProductOrder";

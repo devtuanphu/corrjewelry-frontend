@@ -1,4 +1,4 @@
-"use server";
+
 import { ENDPOINT } from "@/enums/endpoint.enum";
 import React from "react";
 const searchData = {

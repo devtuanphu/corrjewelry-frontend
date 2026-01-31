@@ -1,4 +1,4 @@
-"use server";
+
 import React from "react";
 import Banner from "@/components/home/Banner";
 import NewArrival from "@/components/home/NewArrival";

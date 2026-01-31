@@ -1,4 +1,4 @@
-"use server";
+
 import BlogSection from "@/components/home/BlogSection";
 import WhyChooseUs from "@/components/home/WhyChooseUs";
 import BannerShare from "@/components/share/BannerShare";
@@ -130,7 +130,7 @@ const page = async ({ params }: { params: { slug: string } }) => {
       dataHome.data[0].attributes &&
       dataHome.data[0].attributes.seo) ||
     {};
-  const banner = seo.thumbnail.data.attributes.url;
+  const banner = seo?.thumbnail?.data?.attributes?.url || "";
   const title = seo?.title;
   const description = seo?.description;
   const paths = [
