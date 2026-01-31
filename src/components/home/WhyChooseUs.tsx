@@ -26,32 +26,31 @@ const WhyChooseUs: React.FC<PropsWhyChooseUs> = async ({ dataWhy }) => {
           <div className="container">
             <div className="grid grid-cols-12 gap-2 md:gap-8">
               {dataWhy &&
-                dataWhy.map((item: any) => {
+                dataWhy.map((item: any, idx: number) => {
                   return (
-                    <>
-                      <div className="col-span-6 md:col-span-3">
-                        <div className={`${quicksand.className} text-center`}>
-                          <div className="flex justify-center gap-2">
-                            <Image
-                              src={`${baseUrl}${item?.icon?.data?.attributes?.url}`}
-                              width={24}
-                              height={24}
-                              alt={item?.title}
-                            />
-                            <span className="font-bold text-[15px] text-[#2A2A2A]">
-                              {item?.title}
-                            </span>
-                          </div>
-                          <div className="flex justify-center pt-2">
-                            <div className="w-[70%]">
-                              <p className="text-[#000000] text-[14px] font-normal">
-                                {item?.description}
-                              </p>
-                            </div>
+                    <div key={idx} className="col-span-6 md:col-span-3">
+                      <div className={`${quicksand.className} text-center`}>
+                        <div className="flex justify-center gap-2">
+                          <Image
+                            src={`${baseUrl}${item?.icon?.data?.attributes?.url}`}
+                            width={24}
+                            height={24}
+                            alt={item?.title || "icon"}
+                            loading="eager"
+                          />
+                          <span className="font-bold text-[15px] text-[#2A2A2A]">
+                            {item?.title}
+                          </span>
+                        </div>
+                        <div className="flex justify-center pt-2">
+                          <div className="w-[70%]">
+                            <p className="text-[#000000] text-[14px] font-normal">
+                              {item?.description}
+                            </p>
                           </div>
                         </div>
                       </div>
-                    </>
+                    </div>
                   );
                 })}
               {/* <div className="col-span-6 md:col-span-3">
